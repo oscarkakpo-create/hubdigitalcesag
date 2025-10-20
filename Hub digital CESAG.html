@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Digital CESAG - Votre boîte à outils numérique</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --vert-cesag: #006747;
+            --orange-cesag: #F59E0B;
+            --blanc: #FFFFFF;
+            --gris-clair: #F3F4F6;
+            --gris-moyen: #9CA3AF;
+            --gris-fonce: #1F2937;
+            --vert-hover: #004d34;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--gris-clair);
+            color: var(--gris-fonce);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; font-weight: 600; }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; border: none; outline: none; }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--blanc);
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-logo h1 {
+            font-size: 1.5rem;
+            color: var(--vert-cesag);
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .navbar-menu a {
+            color: var(--gris-fonce);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .navbar-menu a:hover { color: var(--vert-cesag); }
+
+        .hero {
+            background: linear-gradient(135deg, var(--vert-cesag) 0%, var(--vert-hover) 100%);
+            color: var(--blanc);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--orange-cesag);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--vert-cesag);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--gris-moyen);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--blanc);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: var(--vert-cesag);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--gris-fonce);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--gris-moyen);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .card-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .card-tag.gratuit { background: #D1FAE5; color: #065F46; }
+        .card-tag.payant { background: #FEE2E2; color: #991B1B; }
+        .card-tag.etudiant { background: #DBEAFE; color: #1E40AF; }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--vert-cesag);
+            color: var(--blanc);
+        }
+
+        .btn-primary:hover { background: var(--vert-hover); }
+
+        .btn-secondary {
+            background: var(--orange-cesag);
+            color: var(--blanc);
+        }
+
+        .btn-secondary:hover { background: #D97706; }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .support-card {
+            background: var(--blanc);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--vert-cesag);
+        }
+
+        .support-card h3 {
+            color: var(--vert-cesag);
+            margin-bottom: 1rem;
+        }
+
+        .support-info {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--gris-clair);
+            border-radius: 8px;
+        }
+
+        .email-templates {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .email-card {
+            background: var(--blanc);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .email-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--vert-cesag);
+        }
+
+        .email-card i {
+            font-size: 2.5rem;
+            color: var(--orange-cesag);
+            margin-bottom: 1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background: var(--blanc);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        #quizModal .modal-content {
+            max-width: 500px;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            color: var(--gris-moyen);
+            cursor: pointer;
+        }
+
+        .modal-close:hover { color: var(--gris-fonce); }
+
+        .email-template {
+            background: var(--gris-clair);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: var(--vert-cesag);
+            color: var(--blanc);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover { background: var(--vert-hover); }
+
+        .checklist {
+            background: var(--blanc);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: var(--gris-clair);
+            border-radius: 8px;
+        }
+
+        .faq-item {
+            background: var(--blanc);
+            margin: 1rem 0;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .faq-question:hover { background: var(--gris-clair); }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1.5rem;
+            color: var(--gris-moyen);
+        }
+
+        .faq-answer.active {
+            max-height: 500px;
+            padding: 1.5rem;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s;
+        }
+
+        .faq-icon.active { transform: rotate(180deg); }
+
+        .footer {
+            background: var(--gris-fonce);
+            color: var(--blanc);
+            padding: 3rem 2rem 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gris-moyen);
+            color: var(--gris-moyen);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--vert-cesag);
+            color: var(--blanc);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--vert-hover);
+            transform: translateY(-5px);
+        }
+
+        .ia-alert {
+            background: #FEF3C7; /* Jaune clair */
+            border: 1px solid #FCD34D; /* Jaune moyen */
+            color: #92400E; /* Marron foncé */
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        .ia-alert h3 {
+            color: #D97706; /* Orange foncé */
+            margin-bottom: 0.5rem;
+        }
+        .ia-alert ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .password-tip {
+            background: #ecfdf5; /* Vert très clair */
+            border-left: 5px solid #059669; /* Vert plus foncé */
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+        .quiz-card {
+             background: #DBEAFE; /* Bleu clair */
+             border: 2px solid #3B82F6; /* Bleu moyen */
+             color: #1E40AF; /* Bleu foncé */
+        }
+        .quiz-card .btn-primary {
+             background: #3B82F6;
+             color: var(--blanc);
+        }
+        .quiz-card .btn-primary:hover {
+             background: #2563EB;
+        }
+        .quiz-option {
+            background: var(--gris-clair);
+            padding: 10px;
+            border-radius: 6px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        .quiz-option:hover {
+            background: #E5E7EB;
+        }
+        .quiz-option.selected {
+            border: 2px solid var(--vert-cesag);
+        }
+        
+        /* Styles pour l'interactivité */
+        .quiz-option.correct {
+            background: #D1FAE5; /* Vert très clair */
+            border: 2px solid #059669; /* Vert foncé */
+        }
+        .quiz-option.incorrect {
+            background: #FEE2E2; /* Rouge très clair */
+            border: 2px solid #991B1B; /* Rouge foncé */
+        }
+        
+        #quizResult {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-weight: 700;
+        }
+        .reward-gold {
+            background: #FBBF24;
+            color: #78350F;
+        }
+        .reward-silver {
+            background: #D1D5DB;
+            color: #4B5563;
+        }
+        .reward-bronze {
+            background: #FCA5A5;
+            color: #991B1B;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .section-header h2 { font-size: 1.8rem; }
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <h1><i class="fas fa-graduation-cap"></i> Hub Digital CESAG</h1>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="#essentiels">Essentiels</a></li>
+                <li><a href="#support">Support</a></li>
+                <li><a href="#ia">IA</a></li>
+                <li><a href="#apprentissage">Apprentissage</a></li>
+                <li><a href="#productivite">Productivité</a></li>
+                <li><a href="#emails">Emails</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-container">
+            <span class="hero-badge">🚀 Rentrée 2025</span>
+            <h1>Hub Digital CESAG</h1>
+            <p>Votre boîte à outils numérique complète pour réussir au CESAG</p>
+        </div>
+    </section>
+
+    <section class="section" id="essentiels">
+        <div class="section-header">
+            <h2><i class="fas fa-key"></i> Vos Essentiels CESAG</h2>
+            <p>Les outils institutionnels à maîtriser absolument</p>
+        </div>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fab fa-microsoft"></i></div>
+                <h3 class="card-title">Office 365</h3>
+                <span class="card-tag gratuit">Gratuit CESAG</span>
+                <p class="card-description">Word, Excel, PowerPoint, Teams, OneDrive (1To)</p>
+                <a href="https://www.office.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+                <h3 class="card-title">Moodle FOAD</h3>
+                <span class="card-tag gratuit">Gratuit CESAG</span>
+                <p class="card-description">Cours, **examens en ligne**, et **évaluation des enseignements** (Obligatoire)</p>
+                <a href="https://formations.cesagonline.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fab fa-microsoft"></i></div>
+                <h3 class="card-title">Microsoft Teams</h3>
+                <span class="card-tag gratuit">Intégré Office</span>
+                <p class="card-description">Cours en ligne, travail d'équipe, visio</p>
+                <a href="https://teams.microsoft.com" target="_blank" class="btn btn-primary">Ouvrir Teams →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-book"></i></div>
+                <h3 class="card-title">Bibliothèque CESAG</h3>
+                <span class="card-tag gratuit">Gratuit CESAG</span>
+                <p class="card-description">Ressources académiques, bases de données, catalogues</p>
+                <a href="https://bibliotheque.cesag.sn/" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="support" style="background: var(--blanc);">
+        <div class="section-header">
+            <h2><i class="fas fa-life-ring"></i> Besoin d'aide ?</h2>
+            <p>Problèmes avec vos comptes ? Solutions rapides</p>
+        </div>
+        <div class="support-grid">
+            <div class="support-card">
+                <h3><i class="fas fa-lock"></i> Mot de passe Moodle oublié</h3>
+                <p>Réinitialisez-le vous-même :</p>
+                <ol style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>Allez sur formations.cesagonline.com</li>
+                    <li>Cliquez "**Mot de passe perdu**"</li>
+                    <li>Entrez votre email CESAG</li>
+                    <li>Suivez le lien reçu</li>
+                </ol>
+                <a href="https://formations.cesagonline.com/login/forgot_password.php" target="_blank" class="btn btn-secondary">Formulaire de Réinitialisation Moodle →</a>
+            </div>
+
+            <div class="support-card">
+                <h3><i class="fas fa-key"></i> Mot de passe Office 365 oublié</h3>
+                <p>Remplissez le modèle d'email officiel et envoyez-le au Support :</p>
+                <div class="support-info">
+                    <p><i class="fas fa-info-circle"></i> Réponse sous 24-48h pour un nouveau mot de passe temporaire.</p>
+                </div>
+                <a href="#emails" class="btn btn-secondary">Modèle d'Email de Réinitialisation →</a>
+            </div>
+
+            <div class="support-card">
+                <h3><i class="fas fa-headset"></i> Support Technique</h3>
+                <p>Toujours un problème ?</p>
+                <div class="support-info">
+                    <p><i class="fas fa-envelope"></i> oscarkakpo@cesag.edu.sn</p>
+                    <p><i class="fas fa-clock"></i> <strong>Heures :</strong></p>
+                    <p>• Matin : 11h00 - 12h00</p>
+                    <p>• Soir : 16h30 - 18h00</p>
+                    <p><i class="fas fa-calendar"></i> Lundi à Vendredi</p>
+                </div>
+                <a href="mailto:oscarkakpo@cesag.edu.sn" class="btn btn-primary">Envoyer email →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="ia">
+        <div class="section-header">
+            <h2><i class="fas fa-robot"></i> Intelligence Artificielle</h2>
+            <p>Boostez votre productivité avec l'IA</p>
+        </div>
+
+        <div class="ia-alert">
+            <h3><i class="fas fa-exclamation-triangle"></i> Consignes d'utilisation de l'IA (CESAG)</h3>
+            <p>L'IA est un outil puissant, pas un substitut à votre travail :</p>
+            <ul>
+                <li>**Interdit** de soumettre un travail généré intégralement par IA.</li>
+                <li>**Autorisé** pour la recherche, la clarification de concepts, la correction de votre propre écriture et l'organisation d'idées.</li>
+                <li>**L'IA est un PROF, pas un TRICHEUR** : Citez toujours les sources et assurez-vous de la véracité de l'information.</li>
+            </ul>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-comments"></i></div>
+                <h3 class="card-title">ChatGPT</h3>
+                <span class="card-tag gratuit">Gratuit</span>
+                <p class="card-description">Assistant IA conversationnel généraliste</p>
+                <a href="https://chat.openai.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fab fa-google"></i></div>
+                <h3 class="card-title">Gemini</h3>
+                <span class="card-tag gratuit">Gratuit</span>
+                <p class="card-description">IA de Google intégrée, multimodal, accès web</p>
+                <a href="https://gemini.google.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-brain"></i></div>
+                <h3 class="card-title">Claude</h3>
+                <span class="card-tag gratuit">Gratuit</span>
+                <p class="card-description">Idéal pour l'analyse de documents longs (jusqu'à 150K mots)</p>
+                <a href="https://claude.ai" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+             <div class="card">
+                <div class="card-icon"><i class="fas fa-search"></i></div>
+                <h3 class="card-title">Perplexity AI</h3>
+                <span class="card-tag gratuit">Gratuit</span>
+                <p class="card-description">Moteur de recherche IA, citation de sources</p>
+                <a href="https://www.perplexity.ai" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-file-alt"></i></div>
+                <h3 class="card-title">Notion AI</h3>
+                <span class="card-tag etudiant">Freemium</span>
+                <p class="card-description">IA dans vos notes et documents Notion</p>
+                <a href="https://notion.so" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon"><i class="fab fa-microsoft"></i></div>
+                <h3 class="card-title">Microsoft Copilot</h3>
+                <span class="card-tag gratuit">Intégré Windows/Office</span>
+                <p class="card-description">Assistant IA intégré à l'écosystème Microsoft</p>
+                <a href="https://copilot.microsoft.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-language"></i></div>
+                <h3 class="card-title">DeepL</h3>
+                <span class="card-tag gratuit">Gratuit</span>
+                <p class="card-description">Meilleur traducteur au monde (texte et documents)</p>
+                <a href="https://deepl.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-spell-check"></i></div>
+                <h3 class="card-title">Grammarly</h3>
+                <span class="card-tag etudiant">Freemium</span>
+                <p class="card-description">Correction grammaticale anglais et style d'écriture</p>
+                <a href="https://grammarly.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="apprentissage" style="background: var(--blanc);">
+        <div class="section-header">
+            <h2><i class="fas fa-book-open"></i> Plateformes d'Apprentissage</h2>
+            <p>Apprenez au-delà des cours</p>
+        </div>
+        <div class="cards-grid">
+             <div class="card">
+                <div class="card-icon"><i class="fas fa-globe"></i></div>
+                <h3 class="card-title">FutureLearn</h3>
+                <span class="card-tag etudiant">Obligatoire CESAG</span>
+                <p class="card-description">Plateforme de MOOCs. Votre accès à la certification est souvent lié à la réussite d'un cours FutureLearn.</p>
+                <a href="https://www.futurelearn.com" target="_blank" class="btn btn-secondary">Accéder →</a>
+            </div>
+            
+            <div class="card quiz-card">
+                <div class="card-icon"><i class="fas fa-puzzle-piece" style="color: #1E40AF;"></i></div>
+                <h3 class="card-title" style="color: #1E40AF;">Quiz Digital CESAG</h3>
+                <span class="card-tag etudiant">Auto-Évaluation</span>
+                <p class="card-description" style="color: #1E40AF;">Testez vos connaissances sur l'IA, la cybersécurité et les outils essentiels du Hub.</p>
+                <a href="#" class="btn btn-primary" onclick="event.preventDefault(); openQuizModal();">Lancer le Quiz →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fab fa-linkedin"></i></div>
+                <h3 class="card-title">LinkedIn Learning</h3>
+                <span class="card-tag payant">Payant</span>
+                <p class="card-description">Cours business, tech, créativité. Souvent offert par les entreprises.</p>
+                <a href="https://learning.linkedin.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-university"></i></div>
+                <h3 class="card-title">Coursera</h3>
+                <span class="card-tag etudiant">Audit gratuit</span>
+                <p class="card-description">Cours des meilleures universités et entreprises (Google, IBM)</p>
+                <a href="https://coursera.org" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                <h3 class="card-title">Udemy</h3>
+                <span class="card-tag payant">€€</span>
+                <p class="card-description">Formations pratiques abordables sur des compétences spécifiques.</p>
+                <a href="https://udemy.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-calculator"></i></div>
+                <h3 class="card-title">Khan Academy</h3>
+                <span class="card-tag gratuit">Gratuit</span>
+                <p class="card-description">Apprentissage tous niveaux, sciences, maths</p>
+                <a href="https://khanacademy.org" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="productivite">
+        <div class="section-header">
+            <h2><i class="fas fa-bolt"></i> Outils de Productivité</h2>
+            <p>Gagnez du temps et travaillez mieux</p>
+        </div>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-sticky-note"></i></div>
+                <h3 class="card-title">Notion</h3>
+                <span class="card-tag gratuit">Gratuit</span>
+                <p class="card-description">Tout-en-un : notes, projets, tâches, bases de données</p>
+                <a href="https://notion.so" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-chart-pie"></i></div>
+                <h3 class="card-title">Miro</h3>
+                <span class="card-tag gratuit">Freemium</span>
+                <p class="card-description">Tableau blanc collaboratif pour diagrammes, brainstorming et gestion de projet.</p>
+                <a href="https://miro.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fab fa-microsoft"></i></div>
+                <h3 class="card-title">OneNote</h3>
+                <span class="card-tag gratuit">Intégré Office</span>
+                <p class="card-description">Prise de notes Microsoft (écriture manuscrite)</p>
+                <a href="https://www.onenote.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-book-reader"></i></div>
+                <h3 class="card-title">Zotero</h3>
+                <span class="card-tag gratuit">Gratuit</span>
+                <p class="card-description">Gestion bibliographique et citations automatiques</p>
+                <a href="https://zotero.org" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-tree"></i></div>
+                <h3 class="card-title">Forest</h3>
+                <span class="card-tag payant">Freemium</span>
+                <p class="card-description">Application de concentration (Méthode Pomodoro)</p>
+                <a href="https://forestapp.cc" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-palette"></i></div>
+                <h3 class="card-title">Canva</h3>
+                <span class="card-tag etudiant">Gratuit étudiants</span>
+                <p class="card-description">Design graphique facile (présentations, CV)</p>
+                <a href="https://canva.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fab fa-linkedin"></i></div>
+                <h3 class="card-title">LinkedIn</h3>
+                <span class="card-tag gratuit">Gratuit</span>
+                <p class="card-description">Réseau professionnel et développement de carrière</p>
+                <a href="https://linkedin.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-language"></i></div>
+                <h3 class="card-title">Duolingo</h3>
+                <span class="card-tag gratuit">Gratuit</span>
+                <p class="card-description">Apprentissage ludique de langues étrangères</p>
+                <a href="https://duolingo.com" target="_blank" class="btn btn-primary">Accéder →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="emails" style="background: var(--blanc);">
+        <div class="section-header">
+            <h2><i class="fas fa-envelope"></i> Modèles d'Emails Professionnels</h2>
+            <p>Templates prêts à utiliser - Cliquez pour voir</p>
+        </div>
+        <div class="email-templates">
+            <div class="email-card" onclick="openModal('email6')">
+                <i class="fas fa-key"></i>
+                <h3>Réinitialisation Mdp Office 365</h3>
+                <p>Modèle officiel pour le support</p>
+            </div>
+            <div class="email-card" onclick="openModal('email1')">
+                <i class="fas fa-handshake"></i>
+                <h3>Demander un Rendez-vous</h3>
+                <p>Rencontrer un prof, un pro</p>
+            </div>
+
+            <div class="email-card" onclick="openModal('email7')">
+                <i class="fas fa-clock"></i>
+                <h3>Demander une Prolongation (Deadline)</h3>
+                <p>Demande professionnelle de délai</p>
+            </div>
+            
+            <div class="email-card" onclick="openModal('email8')">
+                <i class="fas fa-comment-dots"></i>
+                <h3>Follow-up (Pro/Réseau)</h3>
+                <p>Remerciements après contact informel</p>
+            </div>
+
+            <div class="email-card" onclick="openModal('email2')">
+                <i class="fas fa-certificate"></i>
+                <h3>Demander une Recommandation</h3>
+                <p>Lettre de recommandation</p>
+            </div>
+
+            <div class="email-card" onclick="openModal('email3')">
+                <i class="fas fa-briefcase"></i>
+                <h3>Candidature Stage</h3>
+                <p>Postuler spontanément</p>
+            </div>
+
+            <div class="email-card" onclick="openModal('email4')">
+                <i class="fas fa-redo"></i>
+                <h3>Relancer un Email</h3>
+                <p>Rappel sans réponse</p>
+            </div>
+
+            <div class="email-card" onclick="openModal('email5')">
+                <i class="fas fa-heart"></i>
+                <h3>Remercier après Entretien</h3>
+                <p>Follow-up entretien</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="securite">
+        <div class="section-header">
+            <h2><i class="fas fa-shield-alt"></i> Cybersécurité</h2>
+            <p>Protégez-vous en ligne - Checklist essentielle</p>
+        </div>
+        <div class="checklist">
+            <h3 style="margin-bottom: 1.5rem;">Les 7 Commandements de la Cybersécurité</h3>
+            <div class="checklist-item">
+                <input type="checkbox" id="check1">
+                <label for="check1">J'ai des mots de passe différents pour chaque compte important</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check2">
+                <label for="check2">Mes mots de passe font au moins 12 caractères</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check3">
+                <label for="check3">J'ai activé la double authentification (2FA) sur mes comptes</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check4">
+                <label for="check4">Je ne fais jamais d'opérations bancaires sur WiFi public</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check5">
+                <label for="check5">Je vérifie l'expéditeur avant d'ouvrir une pièce jointe</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check6">
+                <label for="check6">Je fais des sauvegardes régulières de mes documents importants</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check7">
+                <label for="check7">Je mets à jour mes appareils et applications régulièrement</label>
+            </div>
+
+            <h3 style="margin: 2rem 0 1rem;">🔑 Comment créer un Mot de Passe Incassable ?</h3>
+            <p>La méthode la plus simple et la plus sûre est la **"Phrase de Passe"** : une longue phrase facile à retenir, plus sûre qu'un mot court complexe.</p>
+            <div class="password-tip">
+                <p>1. **Choisissez une phrase longue** : Une citation d'un film, le titre d'une chanson, ou une phrase personnelle que vous seul connaissez.</p>
+                <p>2. **Mélangez les caractères** : Remplacez quelques lettres par des chiffres ou symboles similaires.</p>
+                <p>3. **Exemple réussi** : `Le_CESAG-Est-Plus-Qu-Une-BusinessSchool-Pour-Moi-2025!`</p>
+                <p>**Votre mot de passe doit faire au moins 12 caractères et mélanger Majuscules, Minuscules, Chiffres et Symboles.**</p>
+            </div>
+
+            <h3 style="margin: 2rem 0 1rem;">Gestionnaires de Mots de Passe Recommandés</h3>
+            <div style="display: grid; gap: 1rem;">
+                <a href="https://bitwarden.com" target="_blank" class="btn btn-primary">Bitwarden (Open-source)</a>
+                <a href="https://lastpass.com" target="_blank" class="btn btn-primary">LastPass</a>
+                <a href="https://dashlane.com" target="_blank" class="btn btn-primary">Dashlane</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="faq" style="background: var(--blanc);">
+        <div class="section-header">
+            <h2><i class="fas fa-question-circle"></i> Questions Fréquentes (FAQ)</h2>
+            <p>Cliquez sur une question pour voir la réponse</p>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Comment changer mon mot de passe Office 365 ?</span>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>1. Allez sur www.office.com et connectez-vous</p>
+                <p>2. Cliquez sur votre photo en haut à droite</p>
+                <p>3. Sélectionnez "Mon compte"</p>
+                <p>4. Cliquez sur "Mot de passe" puis "Modifier"</p>
+                <p>5. Suivez les instructions</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>J'ai oublié mon mot de passe Moodle, que faire ?</span>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Vous pouvez le réinitialiser vous-même :</p>
+                <p>1. Allez sur formations.cesagonline.com</p>
+                <p>2. Cliquez sur "**Mot de passe perdu ?**"</p>
+                <p>3. Entrez votre email CESAG</p>
+                <p>4. Consultez votre boîte mail et suivez le lien</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Puis-je utiliser ChatGPT pour mes devoirs ? (Règles IA)</span>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>❌ NON pour : faire vos devoirs à votre place, copier-coller du contenu IA</p>
+                <p>✅ OUI pour : comprendre un concept, vérifier votre compréhension, améliorer un texte que VOUS avez écrit</p>
+                <p>Règle d'or : L'IA est un PROF, pas un TRICHEUR</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Comment activer la double authentification ?</span>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Généralement : Paramètres → Sécurité → Authentification à deux facteurs</p>
+                <p>Applications recommandées : Google Authenticator, Microsoft Authenticator, Authy</p>
+                <p>À activer sur : Email, banque, réseaux sociaux, LinkedIn</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Comment télécharger Office sur mon ordinateur ?</span>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>1. Connectez-vous sur www.office.com avec votre email CESAG</p>
+                <p>2. Cliquez sur "**Installer Office**" en haut à droite</p>
+                <p>3. Téléchargez et installez</p>
+                <p>4. Activez avec votre email CESAG</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Pourquoi évaluer mes enseignements sur Moodle ?</span>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>🎯 C'est OBLIGATOIRE : **Pas d'évaluation = Pas d'examen !**</p>
+                <p>💬 C'est anonyme : Les profs ne sauront pas qui a écrit quoi</p>
+                <p>📈 C'est utile : Votre feedback améliore la qualité des cours</p>
+                <p>⏰ À faire : Avant chaque période d'examens</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Qui contacter en cas de problème technique ?</span>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>📧 Email : oscarkakpo@cesag.edu.sn</p>
+                <p>🕐 Heures : 11h-12h et 16h30-18h (Lundi-Vendredi)</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="contact">
+        <div class="section-header">
+            <h2><i class="fas fa-phone-alt"></i> Contact & Support</h2>
+            <p>Nous sommes là pour vous aider</p>
+        </div>
+        <div class="support-grid">
+            <div class="support-card">
+                <h3><i class="fas fa-envelope"></i> Email Support</h3>
+                <div class="support-info">
+                    <p><strong>oscarkakpo@cesag.edu.sn</strong></p>
+                    <p>Réponse sous 24-48h</p>
+                </div>
+                <a href="mailto:oscarkakpo@cesag.edu.sn" class="btn btn-primary">Envoyer un email</a>
+            </div>
+
+            <div class="support-card">
+                <h3><i class="fas fa-clock"></i> Heures de Réception</h3>
+                <div class="support-info">
+                    <p><strong>Matin :</strong> 11h00 - 12h00</p>
+                    <p><strong>Soir :</strong> 16h30 - 18h00</p>
+                    <p><strong>Jours :</strong> Lundi à Vendredi</p>
+                </div>
+            </div>
+
+            <div class="support-card">
+                <h3><i class="fas fa-link"></i> Liens Rapides</h3>
+                <div class="support-info">
+                    <p><a href="https://www.office.com" target="_blank">Office 365</a></p>
+                    <p><a href="https://formations.cesagonline.com" target="_blank">Moodle FOAD</a></p>
+                    <p><a href="https://teams.microsoft.com" target="_blank">Microsoft Teams</a></p>
+                    <p><a href="https://bibliotheque.cesag.sn/" target="_blank">Bibliothèque CESAG</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <h2 style="color: var(--orange-cesag); margin-bottom: 1rem;">
+                <i class="fas fa-graduation-cap"></i> Hub Digital CESAG
+            </h2>
+            <p style="margin-bottom: 2rem;">Votre boîte à outils numérique pour réussir</p>
+            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                <a href="#essentiels">Essentiels</a>
+                <a href="#support">Support</a>
+                <a href="#ia">IA</a>
+                <a href="#apprentissage">Apprentissage</a>
+                <a href="#productivite">Productivité</a>
+                <a href="#emails">Emails</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Hub Digital CESAG. Tous droits réservés.</p>
+            <p>"Le CESAG, bien plus qu'une business school, une vision de l'Afrique conquérante."</p>
+        </div>
+    </footer>
+
+    <div class="back-to-top" id="backToTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <div id="emailModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('emailModal')">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+    
+    <div id="quizModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('quizModal')">&times;</span>
+            <h2>🧠 Quiz Digital CESAG</h2>
+            <p style="color: var(--gris-moyen);">Testez vos connaissances sur les outils essentiels. **5 questions rapides** !</p>
+            <div id="quizContainer" style="margin-top: 2rem;">
+                </div>
+            <div id="feedback" style="display: none; padding: 1rem; margin-top: 1rem; border-radius: 8px; text-align: center;"></div>
+            <button id="submitAnswerBtn" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;" onclick="submitAnswer()">Valider la réponse</button>
+            <div id="quizResult" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // -- QUIZ DATA (JSON) --
+        const allQuizQuestions = [
+            {
+                question: "Quelle est la règle d'or d'utilisation de l'IA (ChatGPT, Gemini) au CESAG ?",
+                options: ["L'IA est un TRICHEUR.", "L'IA est un PROF, pas un TRICHEUR.", "L'IA peut faire tous mes devoirs.", "Je peux copier-coller du contenu IA si je change quelques mots."],
+                answer: "L'IA est un PROF, pas un TRICHEUR."
+            },
+            {
+                question: "Quel outil est OBLIGATOIRE et souvent lié à la validation de votre formation au CESAG ?",
+                options: ["Microsoft Teams", "FutureLearn", "DeepL", "Miro"],
+                answer: "FutureLearn"
+            },
+            {
+                question: "Quel est le minimum de caractères recommandé pour créer un mot de passe sûr ?",
+                options: ["8 caractères", "10 caractères", "12 caractères", "20 caractères"],
+                answer: "12 caractères"
+            },
+            {
+                question: "Quel outil est le plus adapté pour analyser de TRÈS longs documents (150K mots) selon le guide ?",
+                options: ["ChatGPT", "Claude", "Gemini", "Perplexity AI"],
+                answer: "Claude"
+            },
+            {
+                question: "Quelle étape est OBLIGATOIRE sur Moodle avant chaque période d'examen ?",
+                options: ["Télécharger Office 365", "L'évaluation des enseignements", "Créer une Phrase de Passe", "Envoyer un email au Support"],
+                answer: "L'évaluation des enseignements"
+            }
+        ];
+
+        // Global quiz state variables
+        let randomizedQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOption = null;
+        let isAnswerSubmitted = false;
+        const NUM_QUESTIONS_IN_QUIZ = 5;
+
+        // Helper function for shuffling
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function openQuizModal() {
+            const quizModal = document.getElementById('quizModal');
+            
+            // 1. Randomize and select questions
+            randomizedQuestions = shuffleArray([...allQuizQuestions]).slice(0, NUM_QUESTIONS_IN_QUIZ);
+            
+            // 2. Reset state
+            currentQuestionIndex = 0;
+            score = 0;
+            isAnswerSubmitted = false;
+            selectedOption = null;
+            
+            // 3. Reset UI elements
+            document.getElementById('quizResult').style.display = 'none';
+            document.getElementById('submitAnswerBtn').style.display = 'block';
+            document.getElementById('feedback').style.display = 'none';
+            
+            // 4. Show modal and load first question
+            quizModal.style.display = 'block';
+            loadQuestion();
+        }
+        
+        function loadQuestion() {
+            const container = document.getElementById('quizContainer');
+            const button = document.getElementById('submitAnswerBtn');
+            const q = randomizedQuestions[currentQuestionIndex];
+            
+            // Reset state for new question
+            selectedOption = null;
+            isAnswerSubmitted = false;
+
+            if (!q) {
+                showQuizResult();
+                return;
+            }
+
+            // Shuffle options for extra randomness
+            const shuffledOptions = shuffleArray([...q.options]);
+
+            container.innerHTML = `
+                <h3 style="color: var(--vert-cesag); margin-bottom: 1rem;">Question ${currentQuestionIndex + 1}/${randomizedQuestions.length}</h3>
+                <p style="font-weight: 500; margin-bottom: 1.5rem;">${q.question}</p>
+                <div id="options">
+                    ${shuffledOptions.map((opt) => 
+                        `<div class="quiz-option" data-value="${opt}" onclick="selectOption(this, event)">${opt}</div>`
+                    ).join('')}
+                </div>
+            `;
+            
+            button.textContent = (currentQuestionIndex < randomizedQuestions.length - 1) ? 'Valider la réponse' : 'Voir le résultat';
+            button.disabled = true;
+        }
+
+        function selectOption(element, event) {
+            if (isAnswerSubmitted) return; 
+            
+            const options = document.querySelectorAll('#options .quiz-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            
+            // Store the value of the selected option
+            selectedOption = element.getAttribute('data-value');
+            
+            // Enable the button only after selecting
+            document.getElementById('submitAnswerBtn').disabled = false;
+        }
+
+        function submitAnswer() {
+            if (isAnswerSubmitted || !selectedOption) return;
+            isAnswerSubmitted = true;
+
+            const q = randomizedQuestions[currentQuestionIndex];
+            let isCorrect = (selectedOption === q.answer);
+            
+            // 1. Appliquer les styles et désactiver les options
+            document.querySelectorAll('#options .quiz-option').forEach(opt => {
+                opt.onclick = null; // Désactive les clics futurs sur cette question
+                
+                if (opt.getAttribute('data-value') === q.answer) {
+                    opt.classList.add('correct'); // La bonne réponse est en vert
+                }
+                if (opt.classList.contains('selected') && !isCorrect) {
+                    opt.classList.add('incorrect'); // La mauvaise réponse sélectionnée est en rouge
+                }
+            });
+
+            // 2. Afficher le feedback
+            const button = document.getElementById('submitAnswerBtn');
+            const feedback = document.getElementById('feedback');
+            button.disabled = true; 
+            
+            feedback.style.display = 'block';
+            
+            if (isCorrect) {
+                feedback.style.backgroundColor = '#D1FAE5'; 
+                feedback.innerHTML = `<i class="fas fa-check-circle" style="color: #059669;"></i> **Bonne réponse !**`;
+                score++;
+            } else {
+                feedback.style.backgroundColor = '#FEE2E2'; 
+                feedback.innerHTML = `<i class="fas fa-times-circle" style="color: #991B1B;"></i> **Mauvaise réponse.** La bonne réponse est affichée en vert.`;
+            }
+
+            // 3. Passer à la question suivante avec un délai
+            setTimeout(() => {
+                feedback.style.display = 'none';
+                currentQuestionIndex++;
+                if (currentQuestionIndex < randomizedQuestions.length) {
+                    loadQuestion();
+                } else {
+                    showQuizResult();
+                }
+            }, 2000); // Délai de 2 secondes
+        }
+
+        function showQuizResult() {
+            const container = document.getElementById('quizContainer');
+            const resultBox = document.getElementById('quizResult');
+            const total = randomizedQuestions.length;
+            const percentage = (score / total) * 100;
+            let rewardClass = '';
+            let message = '';
+            let icon = '';
+
+            if (percentage >= 80) {
+                rewardClass = 'reward-gold';
+                icon = 'fas fa-medal';
+                message = `Félicitations ! Vous obtenez la **Médaille d'Or** 🥇 ! Vous maîtrisez parfaitement les outils du Hub Digital. Vous êtes prêt(e) pour la rentrée !`;
+            } else if (percentage >= 50) {
+                rewardClass = 'reward-silver';
+                icon = 'fas fa-star';
+                message = `Bon travail ! Vous obtenez la **Médaille d'Argent** 🥈. Quelques révisions sur les sections IA et Cybersécurité, et vous serez au top.`;
+            } else {
+                rewardClass = 'reward-bronze';
+                icon = 'fas fa-exclamation-circle';
+                message = `Continuez de lire ! Vous obtenez la **Médaille de Bronze** 🥉. Relisez les sections Essentiels et Cybersécurité pour mieux maîtriser vos outils.`;
+            }
+
+            container.innerHTML = `<p style="font-size: 1.2rem; font-weight: 600;">Votre score : ${score} / ${total}</p>`;
+            
+            resultBox.className = '';
+            resultBox.classList.add('reward-box', rewardClass);
+            resultBox.innerHTML = `<i class="${icon}" style="font-size: 2rem; margin-bottom: 0.5rem;"></i><p>${message}</p>`;
+            resultBox.style.display = 'block';
+            document.getElementById('submitAnswerBtn').style.display = 'none';
+        }
+
+
+        // -- EMAIL LOGIC AND GENERAL MODAL HANDLER --
+        
+        const emailTemplates = {
+            email6: {
+                title: "Demande de Réinitialisation Mot de Passe Office 365",
+                template: `Objet : URGENCE - Demande de réinitialisation de mot de passe Office 365 - [Prénom NOM]
+
+Cher Support Technique,
+
+Je vous écris pour demander la réinitialisation de mon mot de passe Office 365.
+
+Je n'ai plus accès à mon compte et la procédure de réinitialisation automatique n'a pas fonctionné/n'est pas disponible.
+
+Voici les informations me concernant pour vérification :
+
+- **Nom et Prénoms :** [VOTRE NOM ET PRÉNOMS COMPLETS]
+- **Email CESAG (Bloqué) :** [votre.email@cesag.edu.sn]
+- **Formation Actuelle :** [Licence X / Master Y]
+- **Numéro de Téléphone :** [+221 XX XXX XX XX]
+- **Date de Naissance :** [JJ/MM/AAAA]
+
+Je vous prie de bien vouloir procéder à la réinitialisation et de m'envoyer le nouveau mot de passe temporaire à mon adresse email personnelle suivante : [votre.email.personnel@exemple.com].
+
+Je vous remercie de votre diligence.
+
+Cordialement,
+
+[Prénom NOM]
+[Master/Licence X] - CESAG`
+            },
+            email7: {
+                title: "Demander une Prolongation de Délai (Deadline)",
+                template: `Objet : Demande de prolongation - [Nom du Devoir/Projet] - [Matière] - Prénom NOM
+
+Cher Professeur [Nom],
+
+Je vous écris concernant la soumission du [Nom du Devoir/Projet] pour le cours de [Matière], dont la date limite est fixée au [Date initiale].
+
+Je rencontre actuellement [Expliquer brièvement la raison : une difficulté imprévue, une urgence familiale, une charge de travail temporairement très élevée due au projet X].
+
+Pour garantir une qualité de travail qui soit à la hauteur de vos attentes, je souhaiterais solliciter une prolongation de [Nombre] jours, reportant ainsi la date de remise au [Date souhaitée].
+
+Je suis conscient de l'importance des délais et je vous remercie par avance de votre compréhension et de votre flexibilité.
+
+Cordialement,
+
+[Prénom NOM]
+[Master/Licence X] - CESAG
+[prenom.nom@cesag.edu.sn]`
+            },
+            email8: {
+                title: "Follow-up (Retour/Remerciement après Contact Pro)",
+                template: `Objet : Suite à notre échange du [Date] - Prénom NOM - CESAG
+
+Bonjour [Titre Nom/Prénom],
+
+Je vous remercie sincèrement pour le temps que vous m'avez accordé [préciser le contexte : lors de votre intervention à l'école / pour notre appel téléphonique / la semaine dernière].
+
+Notre discussion sur [sujet spécifique] a été particulièrement enrichissante. [Mentionner un point précis : J'ai notamment apprécié vos conseils concernant le secteur X, ou J'ai pris note de votre suggestion de lire le livre Y].
+
+Je continuerai à suivre l'actualité de [Entreprise/Domaine] et me permets de rester à votre disposition si une opportunité de collaboration se présentait à l'avenir.
+
+Je vous souhaite une excellente semaine.
+
+Cordialement,
+
+[Prénom NOM]
+[Master/Licence X] - CESAG
+[prenom.nom@cesag.edu.sn]
+[+221 XX XXX XX XX]`
+            },
+            email1: {
+                title: "Demander un Rendez-vous",
+                template: `Objet : Demande de rendez-vous - [Sujet] - Prénom NOM
+
+Bonjour [Prénom/Titre Nom],
+
+Je suis étudiant en [formation] au CESAG et je m'intéresse particulièrement à [domaine/sujet].
+
+Votre expertise en [domaine spécifique] m'impressionne et j'aimerais beaucoup bénéficier de vos conseils concernant [sujet précis : mon orientation, mon projet de mémoire, mon entrée dans le secteur X].
+
+Seriez-vous disponible pour un entretien de 20-30 minutes, en visio ou autour d'un café, dans les prochaines semaines ?
+
+Je suis flexible et m'adapterai à votre emploi du temps.
+
+Je vous remercie par avance pour votre considération.
+
+Cordialement,
+
+[Prénom NOM]
+[Master/Licence X] - CESAG
+[prenom.nom@cesag.edu.sn]
+[+221 XX XXX XX XX]`
+            },
+            email2: {
+                title: "Demander une Lettre de Recommandation",
+                template: `Objet : Demande de lettre de recommandation - [Candidature X] - Prénom NOM
+
+Bonjour Professeur [Nom],
+
+J'espère que vous allez bien.
+
+Je candidate actuellement pour [stage/master/emploi X] chez [entreprise/université], un poste qui correspond parfaitement à mon projet professionnel en [domaine].
+
+J'ai beaucoup apprécié votre cours de [matière] en [année] où j'ai obtenu [note], et je pense que vous pourriez témoigner de [compétence spécifique : mon sérieux, ma capacité d'analyse, ma curiosité intellectuelle].
+
+Seriez-vous disponible pour rédiger une lettre de recommandation en ma faveur ? 
+
+La deadline est le [date]. Je peux vous fournir tous les documents nécessaires (CV, descriptif du poste, éléments à mettre en avant).
+
+Je comprends que c'est une demande qui prend du temps et je vous en serais infiniment reconnaissant.
+
+Merci pour votre considération.
+
+Cordialement,
+
+[Prénom NOM]
+[Formation] - CESAG
+[prenom.nom@cesag.edu.sn]`
+            },
+            email3: {
+                title: "Candidature Spontanée Stage",
+                template: `Objet : Candidature Spontanée - Stage [Domaine] - Prénom NOM - CESAG
+
+Bonjour [Prénom/Madame/Monsieur],
+
+Je suis étudiant en Master [X] au CESAG et je suis très intéressé par les activités de [Entreprise] dans le domaine de [secteur précis].
+
+[HOOK : Mention d'un élément spécifique sur l'entreprise - article récent, projet, valeur]
+J'ai récemment lu votre article sur [sujet] et cela a confirmé mon intérêt pour votre structure.
+
+Fort d'une expérience en [domaine] lors de mon stage chez [Entreprise Y], j'ai développé des compétences en [compétence 1, 2, 3] que je souhaiterais mettre au service de votre équipe.
+
+Je recherche activement un stage de [durée] à partir de [date] et je serais honoré de pouvoir contribuer à [projet/département spécifique].
+
+Vous trouverez ci-joint mon CV. Je reste à votre disposition pour un entretien.
+
+Cordialement,
+
+[Prénom NOM]
+[Master X] - CESAG
+[prenom.nom@cesag.edu.sn]
+[+221 XX XXX XX XX]`
+            },
+            email4: {
+                title: "Relancer un Email",
+                template: `Objet : RE: [Objet initial] - Relance
+
+Bonjour [Prénom/Titre Nom],
+
+Je me permets de revenir vers vous concernant mon email du [date] relatif à [sujet].
+
+Je comprends que vous soyez très sollicité et je ne voudrais pas vous importuner. 
+
+Cependant, [contexte : deadline qui approche / opportunité qui pourrait m'échapper / besoin d'avancer], et j'aurais besoin de votre retour pour [raison].
+
+Auriez-vous eu le temps de considérer ma demande ?
+
+Je reste bien entendu à votre disposition pour tout complément d'information.
+
+Merci pour votre attention.
+
+Cordialement,
+
+[Prénom NOM]
+[Formation] - CESAG
+[prenom.nom@cesag.edu.sn]
+
+Note : Relancer après 5-7 jours ouvrés. Maximum 2 relances.`
+            },
+            email5: {
+                title: "Remercier après un Entretien",
+                template: `Objet : Merci pour l'entretien - [Poste X] - Prénom NOM
+
+Bonjour [Prénom],
+
+Je tenais à vous remercier chaleureusement pour le temps que vous m'avez accordé [hier/ce matin] lors de notre entretien concernant [poste].
+
+Notre échange a renforcé mon intérêt pour [entreprise/projet] et particulièrement pour [élément spécifique discuté pendant l'entretien].
+
+[Si pertinent : 
+- J'ai réfléchi à votre question sur X et voici ma réponse complémentaire...
+- Comme convenu, vous trouverez ci-joint le document Y]
+
+J'espère avoir l'opportunité de contribuer à [projet/équipe] et reste à votre disposition pour toute information complémentaire.
+
+Bien cordialement,
+
+[Prénom NOM]
+[Formation] - CESAG
+[prenom.nom@cesag.edu.sn]
+[+221 XX XXX XX XX]
+
+Conseil : Envoyer ce mail dans les 24h suivant l'entretien !`
+            }
+        };
+
+        // Ouvrir Modal Email
+        function openModal(emailId) {
+            const modal = document.getElementById('emailModal');
+            const modalBody = document.getElementById('modalBody');
+            const email = emailTemplates[emailId];
+            
+            modalBody.innerHTML = `
+                <h2>${email.title}</h2>
+                <div class="email-template">${email.template}</div>
+                <button class="copy-btn" onclick="copyEmail('${emailId}')">
+                    <i class="fas fa-copy"></i> Copier le modèle
+                </button>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        // Fermer Modal général
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Copier Email
+        function copyEmail(emailId) {
+            const text = emailTemplates[emailId].template;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Modèle copié ! Collez-le dans votre email.');
+            });
+        }
+
+        // Fermer modal en cliquant en dehors
+        window.onclick = function(event) {
+            const emailModal = document.getElementById('emailModal');
+            const quizModal = document.getElementById('quizModal');
+            if (event.target == emailModal) {
+                closeModal('emailModal');
+            }
+            if (event.target == quizModal) {
+                closeModal('quizModal');
+            }
+        }
+
+        // Toggle FAQ
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('.faq-icon');
+            
+            // Fermer les autres réponses actives pour un affichage propre
+            document.querySelectorAll('.faq-answer.active').forEach(activeAnswer => {
+                if (activeAnswer !== answer) {
+                    activeAnswer.classList.remove('active');
+                    activeAnswer.previousElementSibling.querySelector('.faq-icon').classList.remove('active');
+                }
+            });
+
+            answer.classList.toggle('active');
+            icon.classList.toggle('active');
+        }
+
+        // Back to Top Button
+        window.onscroll = function() {
+            const backToTop = document.getElementById('backToTop');
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Smooth Scroll pour les liens d'ancrage
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
