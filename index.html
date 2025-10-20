@@ -60,10 +60,12 @@
             color: var(--vert-cesag);
         }
 
+        /* Menu par défaut pour les grands écrans */
         .navbar-menu {
             display: flex;
             gap: 2rem;
             list-style: none;
+            transition: all 0.3s ease-in-out; 
         }
 
         .navbar-menu a {
@@ -73,6 +75,49 @@
         }
 
         .navbar-menu a:hover { color: var(--vert-cesag); }
+
+        /* Mobile Menu Button - Caché par défaut */
+        .menu-toggle {
+            display: none; /* Caché sur desktop */
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--vert-cesag);
+        }
+
+        /* --- MEDIA QUERY POUR LE RESPONSIVE (SMARTPHONE/TABLETTE) --- */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none; /* Cache le menu par défaut sur mobile */
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 68px; /* Positionne le menu sous la barre de navigation */
+                left: 0;
+                background-color: var(--blanc);
+                box-shadow: var(--shadow-lg);
+                padding: 1rem 2rem;
+                z-index: 999;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .navbar-menu.active {
+                display: flex; /* Affiche le menu quand la classe 'active' est ajoutée par JS */
+            }
+
+            .menu-toggle {
+                display: block; /* Affiche le bouton hamburger sur mobile */
+            }
+
+            .navbar-container {
+                padding: 0 1rem; /* Réduire le padding sur mobile */
+            }
+            
+            .hero h1 { font-size: 2rem; }
+            .section-header h2 { font-size: 1.8rem; }
+            .cards-grid, .support-grid, .email-templates { grid-template-columns: 1fr; }
+        }
+        /* --- FIN MEDIA QUERY --- */
 
         .hero {
             background: linear-gradient(135deg, var(--vert-cesag) 0%, var(--vert-hover) 100%);
@@ -439,16 +484,16 @@
             margin-top: 1rem;
         }
         .quiz-card {
-             background: #DBEAFE; /* Bleu clair */
-             border: 2px solid #3B82F6; /* Bleu moyen */
-             color: #1E40AF; /* Bleu foncé */
+            background: #DBEAFE; /* Bleu clair */
+            border: 2px solid #3B82F6; /* Bleu moyen */
+            color: #1E40AF; /* Bleu foncé */
         }
         .quiz-card .btn-primary {
-             background: #3B82F6;
-             color: var(--blanc);
+            background: #3B82F6;
+            color: var(--blanc);
         }
         .quiz-card .btn-primary:hover {
-             background: #2563EB;
+            background: #2563EB;
         }
         .quiz-option {
             background: var(--gris-clair);
@@ -495,12 +540,6 @@
             background: #FCA5A5;
             color: #991B1B;
         }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .section-header h2 { font-size: 1.8rem; }
-            .cards-grid { grid-template-columns: 1fr; }
-        }
     </style>
 </head>
 <body>
@@ -510,15 +549,20 @@
             <div class="navbar-logo">
                 <h1><i class="fas fa-graduation-cap"></i> Hub Digital CESAG</h1>
             </div>
-            <ul class="navbar-menu">
-                <li><a href="#essentiels">Essentiels</a></li>
-                <li><a href="#support">Support</a></li>
-                <li><a href="#ia">IA</a></li>
-                <li><a href="#apprentissage">Apprentissage</a></li>
-                <li><a href="#productivite">Productivité</a></li>
-                <li><a href="#emails">Emails</a></li>
-                <li><a href="#contact">Contact</a></li>
+            
+            <ul class="navbar-menu" id="navbarMenu">
+                <li><a href="#essentiels" onclick="closeMenu()">Essentiels</a></li>
+                <li><a href="#support" onclick="closeMenu()">Support</a></li>
+                <li><a href="#ia" onclick="closeMenu()">IA</a></li>
+                <li><a href="#apprentissage" onclick="closeMenu()">Apprentissage</a></li>
+                <li><a href="#productivite" onclick="closeMenu()">Productivité</a></li>
+                <li><a href="#emails" onclick="closeMenu()">Emails</a></li>
+                <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
             </ul>
+            
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
     </nav>
 
@@ -653,7 +697,7 @@
                 <a href="https://claude.ai" target="_blank" class="btn btn-primary">Accéder →</a>
             </div>
 
-             <div class="card">
+            <div class="card">
                 <div class="card-icon"><i class="fas fa-search"></i></div>
                 <h3 class="card-title">Perplexity AI</h3>
                 <span class="card-tag gratuit">Gratuit</span>
@@ -701,7 +745,7 @@
             <p>Apprenez au-delà des cours</p>
         </div>
         <div class="cards-grid">
-             <div class="card">
+            <div class="card">
                 <div class="card-icon"><i class="fas fa-globe"></i></div>
                 <h3 class="card-title">FutureLearn</h3>
                 <span class="card-tag etudiant">Obligatoire CESAG</span>
@@ -1111,6 +1155,34 @@
     </div>
 
     <script>
+        // --- JAVASCRIPT POUR LE MENU HAMBURGER ACTIF ---
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navbarMenu');
+
+        menuToggle.addEventListener('click', () => {
+            // Bascule la classe 'active' pour afficher/cacher le menu
+            navMenu.classList.toggle('active');
+
+            // Change l'icône (burger <-> croix)
+            const icon = menuToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // Fermer le menu après un clic sur un lien (très utile sur mobile)
+        function closeMenu() {
+            navMenu.classList.remove('active');
+            menuToggle.querySelector('i').classList.remove('fa-times');
+            menuToggle.querySelector('i').classList.add('fa-bars');
+        }
+        // --- FIN JAVASCRIPT MENU HAMBURGER ---
+
+
         // -- QUIZ DATA (JSON) --
         const allQuizQuestions = [
             {
