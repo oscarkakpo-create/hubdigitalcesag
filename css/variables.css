@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Hub Digital CESAG - Design System Variables & Tokens
+   Hub Digital CESAG - Design System Variables & Modern Tokens
    ========================================================================== */
 
 :root {
@@ -8,34 +8,35 @@
   --cesag-green-100: #CEEFE0;
   --cesag-green-200: #A1DFC1;
   --cesag-green-500: #00875A;
-  --cesag-green-600: #006747; /* Couleur Maîtresse CESAG */
+  --cesag-green-600: #006747; /* Vert Institutionnel CESAG */
   --cesag-green-700: #004D34;
   --cesag-green-800: #003825;
   --cesag-green-900: #002418;
 
-  /* Couleurs Secondaires & Accents (Or / Ambre CESAG) */
-  --cesag-gold-50: #FFFBEB;
+  /* Accent Doré / Ambre CESAG */
+  --cesag-gold-50: #FFFDF5;
   --cesag-gold-100: #FEF3C7;
   --cesag-gold-200: #FDE68A;
+  --cesag-gold-400: #FBBF24;
   --cesag-gold-500: #F59E0B;
-  --cesag-gold-600: #D97706; /* Accent Doré */
+  --cesag-gold-600: #D97706;
   --cesag-gold-700: #B45309;
 
-  /* Couleurs Fonctionnelles */
+  /* Couleurs Fonctionnelles & Badges */
   --color-success-bg: #ECFDF5;
-  --color-success-text: #065F46;
+  --color-success-text: #047857;
   --color-success-border: #A7F3D0;
   --color-warning-bg: #FFFBEB;
-  --color-warning-text: #92400E;
+  --color-warning-text: #B45309;
   --color-warning-border: #FDE68A;
   --color-danger-bg: #FEF2F2;
-  --color-danger-text: #991B1B;
+  --color-danger-text: #B91C1C;
   --color-danger-border: #FECACA;
-  --color-info-bg: #EFF6FF;
-  --color-info-text: #1E40AF;
-  --color-info-border: #BFDBFE;
+  --color-info-bg: #F0F9FF;
+  --color-info-text: #0369A1;
+  --color-info-border: #BAE6FD;
 
-  /* Thème Clair (Défaut) */
+  /* Thème Clair Ultra-Raffiné */
   --bg-body: #F8FAFC;
   --bg-surface: #FFFFFF;
   --bg-surface-alt: #F1F5F9;
@@ -51,67 +52,70 @@
   --text-muted: #64748B;
   --text-inverse: #FFFFFF;
 
-  /* Ombres & Élévation */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-  --shadow-card-hover: 0 14px 28px rgba(0, 103, 71, 0.09), 0 10px 10px rgba(0, 0, 0, 0.03);
+  /* Ombres Subtiles & Modernes (Soft Layered Elevation) */
+  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 2px 4px -1px rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.03);
+  --shadow-md: 0 6px 12px -2px rgba(15, 23, 42, 0.06), 0 3px 6px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 12px 24px -4px rgba(15, 23, 42, 0.08), 0 6px 12px -4px rgba(15, 23, 42, 0.03);
+  --shadow-xl: 0 24px 48px -8px rgba(15, 23, 42, 0.12), 0 12px 20px -6px rgba(15, 23, 42, 0.04);
+  --shadow-card-hover: 0 16px 32px -4px rgba(0, 103, 71, 0.10), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
 
-  /* Typographie */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-heading: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+  /* Typographie & Polices Raffinées */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* Rayons de bordure */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* Rayons Modernes */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
   --radius-full: 9999px;
 
-  /* Transitions */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Transitions Aériennes */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 250ms cubic-bezier(0.16, 1, 0.3, 1);
   --transition-smooth: 350ms cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Layout */
-  --container-max: 1200px;
-  --header-height: 72px;
+  /* Dimensions */
+  --container-max: 1240px;
+  --header-height: 74px;
 }
 
-/* Mode Sombre Moderne et Respectueux de l'Identité CESAG */
+/* Thème Sombre Haut de Gamme (Dark Slate / Emerald Tint) */
 [data-theme="dark"] {
-  --bg-body: #0B1117;
-  --bg-surface: #131D26;
-  --bg-surface-alt: #1A2634;
-  --bg-surface-elevated: #202F40;
-  --bg-input: #1A2634;
+  --bg-body: #0A0F14;
+  --bg-surface: #111923;
+  --bg-surface-alt: #172230;
+  --bg-surface-elevated: #1D2B3D;
+  --bg-input: #15202D;
 
-  --border-subtle: #243447;
-  --border-default: #33475D;
-  --border-focus: var(--cesag-gold-500);
+  --border-subtle: #1F2E40;
+  --border-default: #2D4058;
+  --border-focus: var(--cesag-gold-400);
 
   --text-primary: #F8FAFC;
   --text-secondary: #94A3B8;
   --text-muted: #64748B;
   --text-inverse: #0F172A;
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
-  --shadow-card-hover: 0 14px 28px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(245, 158, 11, 0.2);
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 12px -2px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 24px 48px -8px rgba(0, 0, 0, 0.7);
+  --shadow-card-hover: 0 16px 32px -4px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(245, 158, 11, 0.25);
 
-  --color-success-bg: #064E3B26;
+  --color-success-bg: rgba(6, 78, 59, 0.25);
   --color-success-text: #6EE7B7;
   --color-success-border: #065F46;
-  --color-warning-bg: #78350F26;
+  --color-warning-bg: rgba(120, 53, 15, 0.25);
   --color-warning-text: #FCD34D;
   --color-warning-border: #92400E;
-  --color-danger-bg: #7F1D1D26;
+  --color-danger-bg: rgba(127, 29, 29, 0.25);
   --color-danger-text: #FCA5A5;
   --color-danger-border: #991B1B;
-  --color-info-bg: #1E3A8A26;
+  --color-info-bg: rgba(30, 58, 138, 0.25);
   --color-info-text: #93C5FD;
   --color-info-border: #1E40AF;
 }
