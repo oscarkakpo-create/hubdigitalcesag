@@ -1,0 +1,117 @@
+/* ==========================================================================
+   Hub Digital CESAG - Design System Variables & Tokens
+   ========================================================================== */
+
+:root {
+  /* Identité Visuelle Institutionnelle CESAG */
+  --cesag-green-50: #EBF8F2;
+  --cesag-green-100: #CEEFE0;
+  --cesag-green-200: #A1DFC1;
+  --cesag-green-500: #00875A;
+  --cesag-green-600: #006747; /* Couleur Maîtresse CESAG */
+  --cesag-green-700: #004D34;
+  --cesag-green-800: #003825;
+  --cesag-green-900: #002418;
+
+  /* Couleurs Secondaires & Accents (Or / Ambre CESAG) */
+  --cesag-gold-50: #FFFBEB;
+  --cesag-gold-100: #FEF3C7;
+  --cesag-gold-200: #FDE68A;
+  --cesag-gold-500: #F59E0B;
+  --cesag-gold-600: #D97706; /* Accent Doré */
+  --cesag-gold-700: #B45309;
+
+  /* Couleurs Fonctionnelles */
+  --color-success-bg: #ECFDF5;
+  --color-success-text: #065F46;
+  --color-success-border: #A7F3D0;
+  --color-warning-bg: #FFFBEB;
+  --color-warning-text: #92400E;
+  --color-warning-border: #FDE68A;
+  --color-danger-bg: #FEF2F2;
+  --color-danger-text: #991B1B;
+  --color-danger-border: #FECACA;
+  --color-info-bg: #EFF6FF;
+  --color-info-text: #1E40AF;
+  --color-info-border: #BFDBFE;
+
+  /* Thème Clair (Défaut) */
+  --bg-body: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-alt: #F1F5F9;
+  --bg-surface-elevated: #FFFFFF;
+  --bg-input: #FFFFFF;
+  
+  --border-subtle: #E2E8F0;
+  --border-default: #CBD5E1;
+  --border-focus: var(--cesag-green-600);
+
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-inverse: #FFFFFF;
+
+  /* Ombres & Élévation */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 14px 28px rgba(0, 103, 71, 0.09), 0 10px 10px rgba(0, 0, 0, 0.03);
+
+  /* Typographie */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+
+  /* Rayons de bordure */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 350ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container-max: 1200px;
+  --header-height: 72px;
+}
+
+/* Mode Sombre Moderne et Respectueux de l'Identité CESAG */
+[data-theme="dark"] {
+  --bg-body: #0B1117;
+  --bg-surface: #131D26;
+  --bg-surface-alt: #1A2634;
+  --bg-surface-elevated: #202F40;
+  --bg-input: #1A2634;
+
+  --border-subtle: #243447;
+  --border-default: #33475D;
+  --border-focus: var(--cesag-gold-500);
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-inverse: #0F172A;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+  --shadow-card-hover: 0 14px 28px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(245, 158, 11, 0.2);
+
+  --color-success-bg: #064E3B26;
+  --color-success-text: #6EE7B7;
+  --color-success-border: #065F46;
+  --color-warning-bg: #78350F26;
+  --color-warning-text: #FCD34D;
+  --color-warning-border: #92400E;
+  --color-danger-bg: #7F1D1D26;
+  --color-danger-text: #FCA5A5;
+  --color-danger-border: #991B1B;
+  --color-info-bg: #1E3A8A26;
+  --color-info-text: #93C5FD;
+  --color-info-border: #1E40AF;
+}

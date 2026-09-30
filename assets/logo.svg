@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="cesagGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00875A" />
+      <stop offset="100%" stop-color="#004D34" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+  <!-- Background Rounded Shield / Square -->
+  <rect width="512" height="512" rx="128" fill="url(#cesagGrad)" />
+  
+  <!-- Academic Mortarboard Cap Icon -->
+  <path d="M256 120 L80 200 L256 280 L432 200 Z" fill="#FFFFFF" />
+  <path d="M140 230 L140 320 Q256 380 372 320 L372 230 Q256 290 140 230 Z" fill="#FFFFFF" opacity="0.95" />
+  
+  <!-- Golden Tassel -->
+  <circle cx="410" cy="210" r="14" fill="url(#goldGrad)" />
+  <path d="M410 224 Q425 290 415 340" stroke="url(#goldGrad)" stroke-width="12" fill="none" stroke-linecap="round" />
+  <rect x="403" y="335" width="24" height="40" rx="8" fill="url(#goldGrad)" />
+</svg>
