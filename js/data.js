@@ -9,7 +9,7 @@ const CESAG_DATA = {
     fullName: "Centre Africain d'Études Supérieures en Gestion",
     city: "Dakar, Sénégal",
     slogan: "Bien plus qu'une business school, une vision de l'Afrique conquérante.",
-    currentTerm: "Rentrée Académique 2025 - 2026",
+    currentTerm: "Rentrée Académique 2026 - 2027",
     support: {
       email: "oscarkakpo@cesag.edu.sn",
       primaryContact: "Oscar KAKPO - Support Numérique",
@@ -24,9 +24,9 @@ const CESAG_DATA = {
 
   announcements: [
     {
-      id: "rentree-2025",
+      id: "rentree-2026",
       type: "info",
-      badge: "Rentrée 2025-2026",
+      badge: "Rentrée 2026-2027",
       title: "Bienvenue aux nouveaux étudiants du CESAG !",
       message: "Activez vos comptes institutionnels (Office 365 et Moodle) dès votre inscription pour accéder à vos cours et plannings.",
       ctaText: "Guide de démarrage",
@@ -613,7 +613,7 @@ const CESAG_DATA = {
       icon: "fas fa-shield-alt",
       summary: "La méthode infaillible pour concevoir un mot de passe de plus de 15 caractères mémorisable et inviolable.",
       steps: [
-        { title: "Choisir une phrase clé", desc: "Prenez une phrase complète qui a du sens pour vous (ex: 'Le CESAG me propulse vers mon avenir en 2025 !')." },
+        { title: "Choisir une phrase clé", desc: "Prenez une phrase complète qui a du sens pour vous (ex: 'Le CESAG me propulse vers mon avenir en 2026 !')." },
         { title: "Combiner les caractères", desc: "Mélangez majuscules, minuscules, espaces ou tirets et caractères spéciaux." },
         { title: "Activer le 2FA", desc: "Configurez l'application Microsoft Authenticator sur votre smartphone pour protéger votre compte institutionnel." }
       ]
