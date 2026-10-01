@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hub Digital CESAG — Votre Portail Numérique Académique</title>
+  <title>Hub Digital CESAG — Portail Numérique Académique</title>
   <meta name="description" content="Portail numérique officiel du CESAG. Accédez à vos cours Moodle, Office 365, Teams, bibliothèque, tutoriels et assistance technique.">
   <meta name="theme-color" content="#006747">
 
-  <!-- Manifest PWA -->
+  <!-- Manifest PWA & Favicon -->
   <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="assets/cesag-logo.png">
 
   <!-- Polices Google : Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,39 +19,38 @@
   <!-- Iconographie FontAwesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <!-- Stylesheets Modularisés -->
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
 </head>
 <body>
 
-  <!-- 1. Bandeau d'alertes & annonces importantes -->
+  <!-- 1. Bandeau d'alertes & annonces importantes (1 seule ligne propre et compacte) -->
   <aside class="announcement-bar" id="announcementBar" style="display: none;" aria-label="Annonces importantes"></aside>
 
-  <!-- 2. En-tête & Barre de Navigation -->
+  <!-- 2. En-tête & Barre de Navigation Propre & Aérée -->
   <header class="site-header" id="siteHeader">
-    <div class="container header-container">
+    <div class="header-container">
+      <!-- Logo Officiel CESAG -->
       <a href="#accueil" class="brand-logo" aria-label="Accueil Hub Digital CESAG">
-        <div class="brand-logo-badge">
-          <i class="fas fa-graduation-cap"></i>
-        </div>
+        <img src="assets/cesag-logo.png" alt="Logo Officiel CESAG" class="brand-logo-img">
         <div class="brand-text">
-          <span class="brand-title">CESAG</span>
-          <span class="brand-tagline">Hub Digital</span>
+          <span class="brand-title">Hub Digital</span>
+          <span class="brand-tagline">Portail Étudiant</span>
         </div>
       </a>
 
-      <!-- Menu de navigation desktop -->
-      <nav aria-label="Navigation principale">
+      <!-- Menu de navigation desktop (Labels courts et nowrap) -->
+      <nav aria-label="Navigation principale" class="nav-nav">
         <ul class="nav-menu" id="navMenu">
-          <li><a href="#accueil" class="nav-link active"><i class="fas fa-home"></i> Accueil</a></li>
-          <li><a href="#nouveau-etudiant" class="nav-link"><i class="fas fa-compass"></i> Nouveau au CESAG</a></li>
-          <li><a href="#services" class="nav-link"><i class="fas fa-th-large"></i> Outils & Services</a></li>
-          <li><a href="#depannage" class="nav-link"><i class="fas fa-life-ring"></i> Dépannage</a></li>
-          <li><a href="#guides" class="nav-link"><i class="fas fa-book-open"></i> Tutoriels</a></li>
-          <li><a href="#outils" class="nav-link"><i class="fas fa-toolbox"></i> Boîte à Outils</a></li>
-          <li><a href="#contact" class="nav-link"><i class="fas fa-envelope"></i> Support</a></li>
+          <li><a href="#accueil" class="nav-link active">Accueil</a></li>
+          <li><a href="#nouveau-etudiant" class="nav-link">Rentrée</a></li>
+          <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#depannage" class="nav-link">Dépannage</a></li>
+          <li><a href="#guides" class="nav-link">Tutoriels</a></li>
+          <li><a href="#outils" class="nav-link">Outils</a></li>
+          <li><a href="#contact" class="nav-link">Support</a></li>
         </ul>
       </nav>
 
@@ -62,7 +62,7 @@
           <kbd class="search-kbd">Ctrl+K</kbd>
         </button>
 
-        <button class="btn-theme-toggle" id="themeToggleBtn" aria-label="Changer le thème visuel">
+        <button class="btn-theme-toggle" id="themeToggleBtn" aria-label="Changer le thème visuel" title="Mode clair / sombre">
           <i class="fas fa-moon"></i>
         </button>
 
@@ -87,7 +87,7 @@
         </h1>
 
         <p class="hero-description">
-          Cours, plateformes pédagogiques, outils collaboratifs, assistance et certifications : retrouvez rapidement tout ce dont vous avez besoin pour réussir.
+          Cours Moodle, messagerie institutionnelle, Microsoft 365, assistance et outils : retrouvez rapidement tout ce dont vous avez besoin.
         </p>
 
         <!-- Recherche Centrale Très Visible -->
@@ -115,14 +115,14 @@
     </section>
 
     <!-- 4. Section Favoris (Mes Raccourcis) -->
-    <section class="container" style="margin-top: 2rem;">
+    <section class="container" style="margin-top: 1.5rem;">
       <div class="favorites-section" id="favoritesSection">
         <div class="favorites-header">
           <h2 class="favorites-title">
             <i class="fas fa-star" style="color: var(--cesag-gold-500);"></i>
             Mes Raccourcis Favoris
           </h2>
-          <span style="font-size: 0.8125rem; color: var(--text-muted);">Enregistrés automatiquement sur cet appareil</span>
+          <span style="font-size: 0.8125rem; color: var(--text-muted);">Enregistrés automatiquement sur votre appareil</span>
         </div>
         <div class="favorites-grid" id="favoritesGrid"></div>
       </div>
@@ -248,7 +248,7 @@
       <div class="container">
         <div class="section-header">
           <span class="section-badge"><i class="fas fa-toolbox"></i> Utilitaires Pratiques</span>
-          <h2 class="section-title">Boîte à Outils & Utilitaires Étudiant</h2>
+          <h2 class="section-title">Boîte à Outils Étudiant</h2>
           <p class="section-subtitle">
             Modèles d'emails professionnels, générateur de CV standardisé, convertisseur XOF et sécurité numérique.
           </p>
@@ -318,7 +318,7 @@
         <div style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 2.5rem; margin-bottom: 3.5rem; box-shadow: var(--shadow-sm);">
           <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.75rem;">
             <div>
-              <h3 style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.25rem;">
+              <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.25rem;">
                 <i class="fas fa-shield-alt" style="color: var(--cesag-green-600); margin-right: 0.5rem;"></i>
                 Cybersécurité : Les 7 Commandements
               </h3>
@@ -378,7 +378,7 @@
 
     <!-- 11. Foire Aux Questions (FAQ) -->
     <section class="section section-alt" id="faq">
-      <div class="container" style="max-width: 860px;">
+      <div class="container" style="max-width: 880px;">
         <div class="section-header">
           <span class="section-badge"><i class="fas fa-question-circle"></i> Réponses Immédiates</span>
           <h2 class="section-title">Questions Fréquentes</h2>
@@ -388,7 +388,7 @@
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 1rem;">
-          <details style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; box-shadow: var(--shadow-sm);">
+          <details style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; box-shadow: var(--shadow-xs);">
             <summary style="font-family: var(--font-heading); font-size: 1.05rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
               <span>Pourquoi l'évaluation des enseignements sur Moodle est-elle obligatoire ?</span>
               <i class="fas fa-chevron-down" style="color: var(--cesag-gold-600);"></i>
@@ -398,7 +398,7 @@
             </div>
           </details>
 
-          <details style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; box-shadow: var(--shadow-sm);">
+          <details style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; box-shadow: var(--shadow-xs);">
             <summary style="font-family: var(--font-heading); font-size: 1.05rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
               <span>Comment installer la suite Microsoft 365 sur mon ordinateur personnel ?</span>
               <i class="fas fa-chevron-down" style="color: var(--cesag-gold-600);"></i>
@@ -408,7 +408,7 @@
             </div>
           </details>
 
-          <details style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; box-shadow: var(--shadow-sm);">
+          <details style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; box-shadow: var(--shadow-xs);">
             <summary style="font-family: var(--font-heading); font-size: 1.05rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
               <span>J'ai perdu mon mot de passe Moodle, puis-je le changer immédiatement ?</span>
               <i class="fas fa-chevron-down" style="color: var(--cesag-gold-600);"></i>
@@ -418,7 +418,7 @@
             </div>
           </details>
 
-          <details style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; box-shadow: var(--shadow-sm);">
+          <details style="background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; box-shadow: var(--shadow-xs);">
             <summary style="font-family: var(--font-heading); font-size: 1.05rem; font-weight: 700; color: var(--text-primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
               <span>Puis-je utiliser ChatGPT ou Claude pour mes devoirs ?</span>
               <i class="fas fa-chevron-down" style="color: var(--cesag-gold-600);"></i>
@@ -517,7 +517,7 @@
       <div class="footer-top">
         <div class="footer-brand">
           <div class="footer-logo">
-            <i class="fas fa-graduation-cap" style="color: var(--cesag-gold-500);"></i>
+            <img src="assets/cesag-logo.png" alt="CESAG" style="height: 48px; width: auto; background: #FFFFFF; padding: 4px; border-radius: 6px;">
             <span>CESAG • Hub Digital</span>
           </div>
           <p class="footer-desc">
@@ -542,7 +542,7 @@
         <div>
           <h4 class="footer-col-title">Aide & Guides</h4>
           <ul class="footer-links">
-            <li><a href="#nouveau-etudiant">Guide Nouveau Étudiant</a></li>
+            <li><a href="#nouveau-etudiant">Guide Rentrée</a></li>
             <li><a href="#depannage">Résolution des Pannes</a></li>
             <li><a href="#guides">Tutoriels Logiciels</a></li>
             <li><a href="#outils">Modèles d'Emails</a></li>

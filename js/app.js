@@ -86,9 +86,9 @@ const App = {
     banner.innerHTML = `
       <div class="announcement-container">
         <span class="announcement-badge">${ann.badge}</span>
-        <span><strong>${ann.title}</strong> — ${ann.message}</span>
-        ${ann.ctaLink ? `<a href="${ann.ctaLink}" target="_blank" rel="noopener noreferrer" class="announcement-link">${ann.ctaText} <i class="fas fa-arrow-right"></i></a>` : ''}
+        <span class="announcement-msg">${ann.message}</span>
         ${ann.ctaTarget ? `<a href="${ann.ctaTarget}" class="announcement-link">${ann.ctaText} <i class="fas fa-arrow-right"></i></a>` : ''}
+        ${ann.ctaLink ? `<a href="${ann.ctaLink}" target="_blank" rel="noopener noreferrer" class="announcement-link">${ann.ctaText} <i class="fas fa-arrow-right"></i></a>` : ''}
         <button class="announcement-close" onclick="App.dismissAnnouncement('${ann.id}')" aria-label="Fermer l'alerte">
           <i class="fas fa-times"></i>
         </button>
