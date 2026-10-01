@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/cv-generator.css">
 </head>
 <body>
 
@@ -659,69 +660,242 @@
     </div>
   </div>
 
-  <!-- Modal Générateur de CV Standardisé CESAG -->
-  <div class="modal-backdrop" id="cvModal" onclick="if(event.target === this) closeModal('cvModal')">
-    <div class="modal-panel" style="max-width: 780px;">
+  <!-- Modal Générateur de CV (v2 — complet, dynamique, A4, PDF, localStorage) -->
+  <div class="modal-backdrop cv-modal-backdrop" id="cvModal" onclick="if(event.target === this) closeModal('cvModal')">
+    <div class="modal-panel cv-modal-panel" role="dialog" aria-labelledby="cvModalTitle" aria-modal="true">
       <div class="modal-header">
-        <h3 class="modal-title"><i class="fas fa-file-pdf" style="color: var(--cesag-gold-600);"></i> Générateur de CV Standardisé CESAG</h3>
-        <button class="modal-close-btn" onclick="closeModal('cvModal')" aria-label="Fermer"><i class="fas fa-times"></i></button>
+        <h3 class="modal-title" id="cvModalTitle"><i class="fas fa-file-pdf" style="color: var(--cesag-gold-600);"></i> Générateur de CV</h3>
+        <button class="modal-close-btn" onclick="closeModal('cvModal')" aria-label="Fermer le générateur"><i class="fas fa-times"></i></button>
       </div>
-      <div class="modal-body">
-        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
-          Renseignez vos rubriques ci-dessous pour générer un CV harmonisé et prêt à l'export PDF / impression.
-        </p>
-        <form id="cvForm" onsubmit="event.preventDefault(); generateCVPreview();">
-          <div class="converter-form-group">
-            <label class="form-label" for="cv_nom">Nom complet & Ville :</label>
-            <input type="text" id="cv_nom" class="form-control" value="Oscar KAKPO | Dakar, Sénégal">
+      <div class="modal-body cv-modal-body">
+        <div class="cv-notice" role="note">
+          <i class="fas fa-shield-alt" aria-hidden="true"></i>
+          <div>
+            <strong>Vos données restent sur votre appareil.</strong>
+            Aucune information n'est envoyée vers un serveur. La photo et les textes sont stockés uniquement dans votre navigateur (localStorage).
+            Ce modèle est une <em>proposition indépendante</em> et n'est pas un modèle officiel du CESAG.
           </div>
-          <div class="converter-form-group">
-            <label class="form-label" for="cv_titre">Titre professionnel ou Promotion :</label>
-            <input type="text" id="cv_titre" class="form-control" value="Étudiant en Master 2 Finance & Contrôle de Gestion — CESAG">
-          </div>
-          <div class="converter-form-group">
-            <label class="form-label" for="cv_contact">Contacts (Tél. | Email CESAG | LinkedIn) :</label>
-            <input type="text" id="cv_contact" class="form-control" value="+221 77 000 00 00 | oscar.kakpo@cesag.edu.sn | linkedin.com/in/exemple">
-          </div>
-          <div class="converter-form-group">
-            <label class="form-label" for="cv_profil">Profil & Objectif (2-3 phrases clés) :</label>
-            <textarea id="cv_profil" class="form-control" rows="2">Étudiant rigoureux et proactif au CESAG, spécialisé dans l'analyse financière et la modélisation sous Excel/Power BI. À la recherche d'un stage de fin d'études stimulant.</textarea>
-          </div>
-          <div class="converter-form-group">
-            <label class="form-label" for="cv_formation">Formation académique (récente en premier) :</label>
-            <textarea id="cv_formation" class="form-control" rows="3">Master 2 Finance d'Entreprise | 2026 - 2027 | CESAG, Dakar
-Licence en Sciences de Gestion | 2023 - 2026 | CESAG, Dakar</textarea>
-          </div>
-          <div class="converter-form-group">
-            <label class="form-label" for="cv_experience">Expériences & Projets (utilisez des tirets '-' pour les puces) :</label>
-            <textarea id="cv_experience" class="form-control" rows="4">Stagiaire Assistant Analyste | Banque Atlantique | Juin - Août 2026
-- Analyse des états financiers et modélisation de flux de trésorerie.
-- Élaboration de notes de synthèse pour les comités de crédit.
+        </div>
 
-Projet Académique | CESAG | 2026
-- Réalisation d'une étude d'impact financier sur le secteur bancaire UEMOA.</textarea>
-          </div>
-          <div class="converter-form-group">
-            <label class="form-label" for="cv_competences">Compétences (Logiciels, Langues, Soft skills) :</label>
-            <textarea id="cv_competences" class="form-control" rows="2">Outils : Microsoft 365 (Excel Avancé, Power BI), Zotero, Notion
-Langues : Français (Langue maternelle), Anglais (Courant / Professionnel)</textarea>
-          </div>
-          <div class="converter-form-group">
-            <label class="form-label" for="cv_interets">Centres d'intérêt :</label>
-            <input type="text" id="cv_interets" class="form-control" value="Finance quantitative, Échecs, Course à pied, Débats économiques">
-          </div>
+        <div class="cv-layout">
+          <!-- ====== Colonne formulaire ====== -->
+          <form id="cvForm" class="cv-form" novalidate aria-label="Formulaire de création de CV">
 
-          <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-            <button type="button" class="btn btn-primary" style="flex: 1;" onclick="generateCVPreview()">
-              <i class="fas fa-eye"></i> Générer / Actualiser l'aperçu
-            </button>
-            <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="exportCVtoPDF()">
-              <i class="fas fa-print"></i> Exporter en PDF / Imprimer
-            </button>
-          </div>
-        </form>
+            <!-- Toolbar : modèle, couleur, photo, ordre, actions -->
+            <section class="cv-toolbar" aria-label="Options de mise en page">
+              <div class="cv-toolbar-row">
+                <fieldset class="cv-toolbar-field">
+                  <legend>Modèle</legend>
+                  <label class="cv-chip">
+                    <input type="radio" name="cv_template" value="classique" checked>
+                    <span>Classique</span>
+                  </label>
+                  <label class="cv-chip">
+                    <input type="radio" name="cv_template" value="moderne">
+                    <span>Moderne</span>
+                  </label>
+                </fieldset>
 
-        <div id="cvPreviewOutput" style="display: none; margin-top: 2rem;"></div>
+                <fieldset class="cv-toolbar-field">
+                  <legend>Couleur d'accent</legend>
+                  <div class="cv-color-swatches" role="radiogroup" aria-label="Couleur d'accent">
+                    <label class="cv-swatch"><input type="radio" name="cv_color" value="#006747" checked><span style="background:#006747" title="Vert CESAG"></span></label>
+                    <label class="cv-swatch"><input type="radio" name="cv_color" value="#1E3A8A"><span style="background:#1E3A8A" title="Bleu nuit"></span></label>
+                    <label class="cv-swatch"><input type="radio" name="cv_color" value="#334155"><span style="background:#334155" title="Ardoise"></span></label>
+                    <label class="cv-swatch"><input type="radio" name="cv_color" value="#B45309"><span style="background:#B45309" title="Doré"></span></label>
+                    <label class="cv-swatch"><input type="radio" name="cv_color" value="#111827"><span style="background:#111827" title="Noir"></span></label>
+                  </div>
+                </fieldset>
+
+                <fieldset class="cv-toolbar-field">
+                  <legend>Photo</legend>
+                  <label class="cv-chip">
+                    <input type="checkbox" id="cv_show_photo" checked>
+                    <span>Afficher la photo</span>
+                  </label>
+                </fieldset>
+              </div>
+            </section>
+
+            <!-- 1. Informations personnelles -->
+            <section class="cv-section" aria-labelledby="cv_s_perso">
+              <h4 id="cv_s_perso" class="cv-section-title"><i class="fas fa-user" aria-hidden="true"></i> Informations personnelles</h4>
+
+              <div class="cv-grid-2">
+                <div class="cv-field">
+                  <label class="form-label" for="cv_prenom">Prénom <span class="cv-required" aria-hidden="true">*</span></label>
+                  <input type="text" id="cv_prenom" class="form-control" placeholder="ex. Awa" required aria-required="true" autocomplete="given-name">
+                  <p class="cv-error" id="err_cv_prenom" aria-live="polite"></p>
+                </div>
+                <div class="cv-field">
+                  <label class="form-label" for="cv_nom">Nom <span class="cv-required" aria-hidden="true">*</span></label>
+                  <input type="text" id="cv_nom" class="form-control" placeholder="ex. DIALLO" required aria-required="true" autocomplete="family-name">
+                  <p class="cv-error" id="err_cv_nom" aria-live="polite"></p>
+                </div>
+              </div>
+
+              <div class="cv-grid-2">
+                <div class="cv-field">
+                  <label class="form-label" for="cv_ville">Ville</label>
+                  <input type="text" id="cv_ville" class="form-control" placeholder="ex. Dakar" autocomplete="address-level2">
+                </div>
+                <div class="cv-field">
+                  <label class="form-label" for="cv_pays">Pays</label>
+                  <input type="text" id="cv_pays" class="form-control" placeholder="ex. Sénégal" autocomplete="country-name">
+                </div>
+              </div>
+
+              <div class="cv-grid-2">
+                <div class="cv-field">
+                  <label class="form-label" for="cv_telephone">Téléphone</label>
+                  <input type="tel" id="cv_telephone" class="form-control" placeholder="ex. +221 77 000 00 00" autocomplete="tel">
+                </div>
+                <div class="cv-field">
+                  <label class="form-label" for="cv_email">Adresse email <span class="cv-required" aria-hidden="true">*</span></label>
+                  <input type="email" id="cv_email" class="form-control" placeholder="ex. prenom.nom@exemple.com" required aria-required="true" autocomplete="email">
+                  <p class="cv-error" id="err_cv_email" aria-live="polite"></p>
+                </div>
+              </div>
+
+              <div class="cv-field">
+                <label class="form-label" for="cv_linkedin">Profil LinkedIn (facultatif)</label>
+                <input type="url" id="cv_linkedin" class="form-control" placeholder="ex. linkedin.com/in/votre-profil" autocomplete="url">
+              </div>
+
+              <div class="cv-field">
+                <label class="form-label" for="cv_photo_input">Photo (facultatif, stockée localement uniquement)</label>
+                <input type="file" id="cv_photo_input" class="form-control" accept="image/png,image/jpeg,image/webp" aria-describedby="cv_photo_hint">
+                <p id="cv_photo_hint" class="cv-hint">Formats acceptés : JPG, PNG, WebP. Poids max. ~2 Mo. La photo ne quitte jamais votre navigateur.</p>
+                <div id="cv_photo_preview" class="cv-photo-preview" hidden>
+                  <img id="cv_photo_img" alt="Aperçu de la photo chargée">
+                  <button type="button" class="btn btn-outline btn-sm" id="cv_photo_remove">Retirer la photo</button>
+                </div>
+              </div>
+            </section>
+
+            <!-- 2. Titre professionnel -->
+            <section class="cv-section" aria-labelledby="cv_s_titre">
+              <h4 id="cv_s_titre" class="cv-section-title"><i class="fas fa-id-badge" aria-hidden="true"></i> Titre professionnel</h4>
+              <div class="cv-grid-2">
+                <div class="cv-field">
+                  <label class="form-label" for="cv_formation_titre">Formation / Spécialisation</label>
+                  <input type="text" id="cv_formation_titre" class="form-control" placeholder="ex. Master 2 Finance d'entreprise">
+                </div>
+                <div class="cv-field">
+                  <label class="form-label" for="cv_poste_recherche">Poste ou stage recherché</label>
+                  <input type="text" id="cv_poste_recherche" class="form-control" placeholder="ex. Stage d'analyste financier">
+                </div>
+              </div>
+            </section>
+
+            <!-- 3. Profil professionnel -->
+            <section class="cv-section" aria-labelledby="cv_s_profil">
+              <h4 id="cv_s_profil" class="cv-section-title"><i class="fas fa-user-circle" aria-hidden="true"></i> Profil professionnel</h4>
+              <div class="cv-field">
+                <label class="form-label" for="cv_profil">Présentation courte (3 à 5 lignes)</label>
+                <textarea id="cv_profil" class="form-control" rows="4" placeholder="Décrivez brièvement votre parcours, vos points forts et votre savoir-faire principal."></textarea>
+              </div>
+              <div class="cv-field">
+                <label class="form-label" for="cv_objectif">Objectif professionnel</label>
+                <textarea id="cv_objectif" class="form-control" rows="2" placeholder="ex. Intégrer une structure dynamique pour contribuer à..."></textarea>
+              </div>
+            </section>
+
+            <!-- 4. Formations (dynamique) -->
+            <section class="cv-section" aria-labelledby="cv_s_formations">
+              <div class="cv-section-head">
+                <h4 id="cv_s_formations" class="cv-section-title"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Formations</h4>
+                <button type="button" class="btn btn-outline btn-sm" data-cv-add="formation"><i class="fas fa-plus"></i> Ajouter</button>
+              </div>
+              <div class="cv-repeater" id="cv_formations_list" data-cv-list="formation" aria-live="polite"></div>
+            </section>
+
+            <!-- 5. Expériences (dynamique) -->
+            <section class="cv-section" aria-labelledby="cv_s_experiences">
+              <div class="cv-section-head">
+                <h4 id="cv_s_experiences" class="cv-section-title"><i class="fas fa-briefcase" aria-hidden="true"></i> Expériences</h4>
+                <button type="button" class="btn btn-outline btn-sm" data-cv-add="experience"><i class="fas fa-plus"></i> Ajouter</button>
+              </div>
+              <div class="cv-repeater" id="cv_experiences_list" data-cv-list="experience" aria-live="polite"></div>
+            </section>
+
+            <!-- 6. Projets académiques (dynamique) -->
+            <section class="cv-section" aria-labelledby="cv_s_projets">
+              <div class="cv-section-head">
+                <h4 id="cv_s_projets" class="cv-section-title"><i class="fas fa-lightbulb" aria-hidden="true"></i> Projets académiques</h4>
+                <button type="button" class="btn btn-outline btn-sm" data-cv-add="projet"><i class="fas fa-plus"></i> Ajouter</button>
+              </div>
+              <div class="cv-repeater" id="cv_projets_list" data-cv-list="projet" aria-live="polite"></div>
+            </section>
+
+            <!-- 7. Compétences -->
+            <section class="cv-section" aria-labelledby="cv_s_competences">
+              <h4 id="cv_s_competences" class="cv-section-title"><i class="fas fa-cogs" aria-hidden="true"></i> Compétences</h4>
+              <div class="cv-grid-2">
+                <div class="cv-field">
+                  <label class="form-label" for="cv_logiciels">Logiciels</label>
+                  <textarea id="cv_logiciels" class="form-control" rows="2" placeholder="ex. Excel, Power BI, Word, PowerPoint"></textarea>
+                </div>
+                <div class="cv-field">
+                  <label class="form-label" for="cv_techniques">Compétences techniques</label>
+                  <textarea id="cv_techniques" class="form-control" rows="2" placeholder="ex. Analyse financière, modélisation, SQL"></textarea>
+                </div>
+              </div>
+              <div class="cv-grid-2">
+                <div class="cv-field">
+                  <label class="form-label" for="cv_relationnelles">Compétences relationnelles</label>
+                  <textarea id="cv_relationnelles" class="form-control" rows="2" placeholder="ex. Travail en équipe, rigueur, communication"></textarea>
+                </div>
+                <div class="cv-field">
+                  <label class="form-label" for="cv_langues">Langues (avec niveau)</label>
+                  <textarea id="cv_langues" class="form-control" rows="2" placeholder="ex. Français (natif), Anglais (B2 — professionnel)"></textarea>
+                </div>
+              </div>
+            </section>
+
+            <!-- 8. Certifications (dynamique) -->
+            <section class="cv-section" aria-labelledby="cv_s_certifs">
+              <div class="cv-section-head">
+                <h4 id="cv_s_certifs" class="cv-section-title"><i class="fas fa-certificate" aria-hidden="true"></i> Certifications</h4>
+                <button type="button" class="btn btn-outline btn-sm" data-cv-add="certification"><i class="fas fa-plus"></i> Ajouter</button>
+              </div>
+              <div class="cv-repeater" id="cv_certifs_list" data-cv-list="certification" aria-live="polite"></div>
+            </section>
+
+            <!-- 9. Centres d'intérêt -->
+            <section class="cv-section" aria-labelledby="cv_s_interets">
+              <h4 id="cv_s_interets" class="cv-section-title"><i class="fas fa-heart" aria-hidden="true"></i> Centres d'intérêt <span class="cv-optional">(facultatif)</span></h4>
+              <div class="cv-field">
+                <label class="form-label" for="cv_interets">Loisirs et centres d'intérêt</label>
+                <input type="text" id="cv_interets" class="form-control" placeholder="ex. Lecture, échecs, course à pied">
+              </div>
+            </section>
+
+            <!-- 10. Ordre des rubriques -->
+            <section class="cv-section" aria-labelledby="cv_s_order">
+              <h4 id="cv_s_order" class="cv-section-title"><i class="fas fa-sort" aria-hidden="true"></i> Ordre des rubriques principales</h4>
+              <p class="cv-hint">Déplacez les rubriques pour choisir leur ordre d'apparition dans le CV. Utilisez les boutons ↑ et ↓ (accessibles au clavier).</p>
+              <ol class="cv-order-list" id="cv_order_list" aria-label="Ordre des rubriques"></ol>
+            </section>
+
+            <!-- Barre d'actions -->
+            <div class="cv-actions" role="group" aria-label="Actions sur le CV">
+              <button type="button" class="btn btn-primary" id="cv_btn_print"><i class="fas fa-print"></i> Imprimer / PDF</button>
+              <button type="button" class="btn btn-outline" id="cv_btn_reset"><i class="fas fa-trash"></i> Effacer toutes les données</button>
+              <span id="cv_autosave_status" class="cv-autosave" aria-live="polite">Sauvegarde locale active</span>
+            </div>
+          </form>
+
+          <!-- ====== Colonne aperçu ====== -->
+          <aside class="cv-preview-pane" aria-label="Aperçu du CV">
+            <div class="cv-preview-head">
+              <span><i class="fas fa-eye" aria-hidden="true"></i> Aperçu en direct — Format A4</span>
+            </div>
+            <div class="cv-preview-scroller">
+              <article id="cvPreview" class="cv-preview cv-tpl-classique" aria-live="polite"></article>
+            </div>
+          </aside>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-outline" onclick="closeModal('cvModal')">Fermer</button>
@@ -746,5 +920,6 @@ Langues : Français (Langue maternelle), Anglais (Courant / Professionnel)</text
   <script src="js/favorites.js"></script>
   <script src="js/search.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/cv-generator.js"></script>
 </body>
 </html>
