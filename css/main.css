@@ -888,6 +888,116 @@ img, svg {
   }
 }
 
+/* --------------------------------------------------------------------------
+   Ajustements mobiles (aucun défilement horizontal de la page)
+   -------------------------------------------------------------------------- */
+html, body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+img, video, svg {
+  max-width: 100%;
+}
+
+.hero-search-input,
+.search-modal-input {
+  min-width: 0;
+}
+
+.brand-logo {
+  min-width: 0;
+}
+
+main p, main li, main strong, main a {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1080px) {
+  .header-container {
+    gap: 0.75rem;
+  }
+
+  .category-nav-wrapper {
+    justify-content: flex-start;
+  }
+
+  .category-pills {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-container {
+    gap: 0.5rem;
+  }
+
+  .brand-logo {
+    gap: 0.55rem;
+    flex-shrink: 1;
+  }
+
+  .brand-logo-img {
+    height: 34px;
+  }
+
+  .brand-title {
+    font-size: 1rem;
+  }
+
+  .brand-tagline {
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+  }
+
+  .header-actions {
+    gap: 0.4rem;
+  }
+
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .hero-pill {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .hero-search-box {
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+  }
+
+  .hero-search-icon {
+    font-size: 1.1rem;
+    margin-right: 0.6rem;
+  }
+
+  .hero-search-input {
+    font-size: 0.95rem;
+  }
+
+  .hero-search-box .btn-sm {
+    flex-shrink: 0;
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  .nav-menu {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand-tagline {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 1.75rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
