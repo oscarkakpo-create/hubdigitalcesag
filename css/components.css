@@ -1072,7 +1072,7 @@
 /* Responsive adjust */
 @media (max-width: 768px) {
   .ai-columns-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .onboarding-card {
@@ -1082,6 +1082,12 @@
   }
 
   .cards-grid, .trouble-grid, .tutorials-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .trouble-card {
+    min-width: 0;
+    padding: 1.35rem;
+    overflow-wrap: anywhere;
   }
 }
