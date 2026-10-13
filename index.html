@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hub Digital CESAG — Portail Numérique Académique</title>
-  <meta name="description" content="Portail numérique officiel du CESAG. Accédez à vos cours Moodle, Office 365, Teams, bibliothèque, tutoriels et assistance technique.">
+  <meta name="description" content="Initiative numérique indépendante facilitant l’accès à Moodle, Microsoft 365, Teams, OneDrive, aux évaluations et aux ressources numériques utiles au CESAG.">
   <meta name="theme-color" content="#006747">
 
   <!-- Manifest PWA & Favicon -->
@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/cv-generator.css">
+  <link rel="stylesheet" href="css/portal-2026.css">
 </head>
 <body>
 
@@ -48,6 +49,7 @@
           <li><a href="#accueil" class="nav-link active">Accueil</a></li>
           <li><a href="#nouveau-etudiant" class="nav-link">Rentrée</a></li>
           <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#evaluations" class="nav-link">Évaluer</a></li>
           <li><a href="#depannage" class="nav-link">Dépannage</a></li>
           <li><a href="#guides" class="nav-link">Tutoriels</a></li>
           <li><a href="#outils" class="nav-link">Outils</a></li>
@@ -80,15 +82,15 @@
       <div class="container">
         <div class="hero-pill">
           <span class="hero-pill-dot"></span>
-          <span>Portail Numérique Officiel • Rentrée 2026 - 2027</span>
+          <span>Initiative numérique indépendante • Rentrée 2026 - 2027</span>
         </div>
 
         <h1 class="hero-title">
-          Votre environnement numérique <span class="hero-title-accent">d'excellence au CESAG</span>
+          Hub Digital CESAG <span class="hero-title-accent">votre porte d’entrée numérique</span>
         </h1>
 
         <p class="hero-description">
-          Cours Moodle, messagerie institutionnelle, Microsoft 365, assistance et outils : retrouvez rapidement tout ce dont vous avez besoin.
+          Retrouvez vos outils, plateformes, ressources et services d’assistance au même endroit.
         </p>
 
         <!-- Recherche Centrale Très Visible -->
@@ -111,6 +113,54 @@
             <button class="search-chip" onclick="SearchEngine.openSearchModal('FutureLearn')">FutureLearn</button>
             <button class="search-chip" onclick="SearchEngine.openSearchModal('Bibliotheque')">Bibliothèque</button>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation 2026-2027 orientée besoins -->
+    <section class="section intent-section" id="orientation" aria-labelledby="intentTitle">
+      <div class="container">
+        <div class="section-header intent-heading">
+          <span class="section-badge"><i class="fas fa-route"></i> Accès guidé</span>
+          <h2 class="section-title" id="intentTitle">Que voulez-vous faire ?</h2>
+          <p class="section-subtitle">Choisissez votre besoin pour accéder directement au bon service.</p>
+        </div>
+        <div class="intent-grid">
+          <a class="intent-card intent-card--featured" href="https://www.office.com" target="_blank" rel="noopener noreferrer">
+            <span class="intent-icon"><i class="fab fa-microsoft"></i></span>
+            <span><strong>Me connecter à Microsoft 365</strong><small>Outlook, OneDrive et applications Microsoft</small></span>
+            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          </a>
+          <a class="intent-card intent-card--featured" href="https://formations.cesagonline.com" target="_blank" rel="noopener noreferrer">
+            <span class="intent-icon"><i class="fas fa-graduation-cap"></i></span>
+            <span><strong>Accéder à Moodle</strong><small>Cours, quiz, devoirs, notes et ressources</small></span>
+            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          </a>
+          <a class="intent-card" href="https://teams.microsoft.com" target="_blank" rel="noopener noreferrer">
+            <span class="intent-icon"><i class="fas fa-users"></i></span>
+            <span><strong>Rejoindre Teams</strong><small>Classes virtuelles et collaboration</small></span>
+            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          </a>
+          <a class="intent-card" href="#evaluations">
+            <span class="intent-icon"><i class="fas fa-star-half-stroke"></i></span>
+            <span><strong>Accéder à mes évaluations</strong><small>Retrouver mon programme et ma session</small></span>
+            <i class="fas fa-arrow-down" aria-hidden="true"></i>
+          </a>
+          <a class="intent-card" href="#contact">
+            <span class="intent-icon"><i class="fas fa-headset"></i></span>
+            <span><strong>Demander une assistance</strong><small>Messagerie, Moodle ou accès numérique</small></span>
+            <i class="fas fa-arrow-down" aria-hidden="true"></i>
+          </a>
+          <a class="intent-card" href="#ia-cadre">
+            <span class="intent-icon"><i class="fas fa-wand-magic-sparkles"></i></span>
+            <span><strong>Consulter les ressources IA</strong><small>Usages responsables et bonnes pratiques</small></span>
+            <i class="fas fa-arrow-down" aria-hidden="true"></i>
+          </a>
+          <a class="intent-card" href="#services">
+            <span class="intent-icon"><i class="fas fa-toolbox"></i></span>
+            <span><strong>Retrouver mes outils numériques</strong><small>Explorer tout l’écosystème du Hub</small></span>
+            <i class="fas fa-arrow-down" aria-hidden="true"></i>
+          </a>
         </div>
       </div>
     </section>
@@ -141,6 +191,75 @@
         </div>
 
         <div class="onboarding-stepper" id="onboardingStepper"></div>
+      </div>
+    </section>
+
+    <!-- Microsoft 365 : synthèse issue de la formation 2026-2027 -->
+    <section class="section platform-section" id="microsoft-365" aria-labelledby="m365Title">
+      <div class="container">
+        <div class="platform-hero">
+          <div>
+            <span class="section-badge"><i class="fab fa-microsoft"></i> Espace de travail</span>
+            <h2 class="section-title" id="m365Title">Microsoft 365 — votre espace de travail CESAG</h2>
+            <p class="section-subtitle">Communiquez, collaborez, stockez vos fichiers et créez vos documents avec votre compte CESAG.</p>
+          </div>
+          <a class="btn btn-primary" href="https://www.office.com" target="_blank" rel="noopener noreferrer">Ouvrir Microsoft 365 <i class="fas fa-external-link-alt"></i></a>
+        </div>
+        <div class="platform-tools" aria-label="Applications Microsoft 365">
+          <article><i class="fas fa-envelope"></i><h3>Outlook</h3><p>Messagerie et calendrier.</p></article>
+          <article><i class="fas fa-users"></i><h3>Teams</h3><p>Classes et collaboration.</p></article>
+          <article><i class="fas fa-cloud"></i><h3>OneDrive</h3><p>1 To pour stocker et partager.</p></article>
+          <article><i class="fas fa-file-word"></i><h3>Word</h3><p>Rapports et documents.</p></article>
+          <article><i class="fas fa-file-excel"></i><h3>Excel</h3><p>Calculs et analyses.</p></article>
+          <article><i class="fas fa-file-powerpoint"></i><h3>PowerPoint</h3><p>Présentations.</p></article>
+          <article><i class="fas fa-note-sticky"></i><h3>OneNote</h3><p>Notes organisées.</p></article>
+          <article><i class="fas fa-list-check"></i><h3>Forms</h3><p>Questionnaires et sondages.</p></article>
+          <article><i class="fas fa-wand-magic-sparkles"></i><h3>Copilot</h3><p>Assistant IA Microsoft.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Moodle FOAD : synthèse issue de la formation 2026-2027 -->
+    <section class="section section-alt platform-section" id="moodle-foad" aria-labelledby="moodleTitle">
+      <div class="container">
+        <div class="platform-hero">
+          <div>
+            <span class="section-badge"><i class="fas fa-graduation-cap"></i> Espace académique</span>
+            <h2 class="section-title" id="moodleTitle">Moodle FOAD — votre espace académique en ligne</h2>
+            <p class="section-subtitle">Retrouvez vos cours, annonces, ressources, activités et résultats depuis un seul espace.</p>
+          </div>
+          <a class="btn btn-primary" href="https://formations.cesagonline.com" target="_blank" rel="noopener noreferrer">Accéder à Moodle <i class="fas fa-external-link-alt"></i></a>
+        </div>
+        <div class="moodle-capabilities" aria-label="Fonctionnalités Moodle">
+          <span>Cours</span><span>Ressources</span><span>Annonces</span><span>Forums</span><span>Quiz</span><span>Devoirs</span><span>Feedback</span><span>Notes</span><span>Salle virtuelle</span>
+        </div>
+        <div class="first-steps">
+          <h3>Première fois sur Moodle ?</h3>
+          <ol>
+            <li><span>1</span>Se connecter</li><li><span>2</span>Retrouver son cours</li><li><span>3</span>Consulter une ressource</li><li><span>4</span>Participer au forum</li><li><span>5</span>Réaliser un quiz</li><li><span>6</span>Déposer un devoir</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Évaluations : les URL sont chargées depuis data/evaluations.json -->
+    <section class="section evaluations-section" id="evaluations" aria-labelledby="evaluationsTitle">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge"><i class="fas fa-star-half-stroke"></i> Démarche qualité</span>
+          <h2 class="section-title" id="evaluationsTitle">Évaluation des enseignements</h2>
+          <p class="section-subtitle">Votre avis contribue à l’amélioration continue de la qualité des enseignements au CESAG.</p>
+        </div>
+        <div class="evaluation-filters" aria-label="Filtrer les espaces d’évaluation">
+          <div><label for="evaluationCycle">Cycle</label><select id="evaluationCycle"><option value="all">Tous</option><option>Licence</option><option>Master</option><option>MBA</option></select></div>
+          <div><label for="evaluationLevel">Niveau</label><select id="evaluationLevel"><option value="all">Tous</option><option>L1</option><option>L2</option><option>L3</option><option>M1</option><option>M2</option></select></div>
+          <div><label for="evaluationSession">Session</label><select id="evaluationSession"><option value="all">Toutes</option><option>JOUR</option><option>SOIR</option></select></div>
+          <button class="btn btn-outline" id="evaluationReset" type="button">Réinitialiser</button>
+        </div>
+        <p class="evaluation-count" id="evaluationCount" aria-live="polite"></p>
+        <div class="evaluation-grid" id="evaluationGrid" aria-live="polite" aria-busy="true">
+          <div class="evaluation-empty"><i class="fas fa-spinner fa-spin"></i><h3>Chargement des espaces</h3></div>
+        </div>
       </div>
     </section>
 
@@ -328,7 +447,7 @@
             <span class="badge tag-essential" id="cyberProgressCounter">0 / 7 commandements validés</span>
           </div>
 
-          <div class="ai-columns-grid">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;" class="ai-columns-grid">
             <div id="cyberChecklist"></div>
 
             <div style="background-color: var(--bg-surface-alt); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle);">
@@ -370,7 +489,7 @@
             <i class="fas fa-envelope-open-text" style="color: var(--cesag-gold-600); margin-right: 0.5rem;"></i>
             Modèles d'Emails Professionnels
           </h3>
-          <p class="section-subtitle">8 templates officiels pré-rédigés pour vos démarches auprès de l'administration, des enseignants et des entreprises.</p>
+          <p class="section-subtitle">8 exemples de messages pré-rédigés pour vos démarches auprès de l'administration, des enseignants et des entreprises.</p>
         </div>
 
         <div class="trouble-grid" id="emailTemplatesGrid"></div>
@@ -917,6 +1036,7 @@
 
   <!-- Scripts Applicatifs -->
   <script src="js/data.js"></script>
+  <script src="js/evaluations.js"></script>
   <script src="js/favorites.js"></script>
   <script src="js/search.js"></script>
   <script src="js/app.js"></script>
