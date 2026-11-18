@@ -24,6 +24,7 @@ const App = {
     this.initConverter();
     this.initBackToTop();
     this.initMobileMenu();
+    this.initScrollSpy();
 
     if (window.FavoritesManager) {
       window.FavoritesManager.init();
@@ -462,26 +463,111 @@ const App = {
   },
 
   /* ==========================================================================
-     Utilitaires UI & Mobile
+     Utilitaires UI & Mobile Menu
      ========================================================================== */
   initMobileMenu() {
     const toggle = document.getElementById('mobileMenuToggle');
-    const nav = document.getElementById('navMenu');
-    if (!toggle || !nav) return;
+    const wrapper = document.getElementById('navMenuWrapper');
+    const backdrop = document.getElementById('mobileNavBackdrop');
+    const closeBtn = document.getElementById('mobileMenuClose');
+    if (!toggle || !wrapper) return;
 
-    toggle.addEventListener('click', () => {
-      nav.classList.toggle('active');
-      toggle.innerHTML = nav.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+    const openMenu = () => {
+      wrapper.classList.add('active');
+      if (backdrop) backdrop.classList.add('active');
+      toggle.classList.add('active');
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', 'Fermer le menu de navigation');
+      toggle.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeMenu = () => {
+      wrapper.classList.remove('active');
+      if (backdrop) backdrop.classList.remove('active');
+      toggle.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Ouvrir le menu de navigation');
+      toggle.innerHTML = '<i class="fas fa-bars" aria-hidden="true"></i>';
+      document.body.style.overflow = '';
+    };
+
+    const toggleMenu = () => {
+      if (wrapper.classList.contains('active')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    };
+
+    this.openMobileMenu = openMenu;
+    this.closeMobileMenu = closeMenu;
+    this.toggleMobileMenu = toggleMenu;
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMenu();
     });
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeMenu();
+      });
+    }
+
+    if (backdrop) {
+      backdrop.addEventListener('click', () => {
+        closeMenu();
+      });
+    }
 
     document.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', () => {
-        if (window.innerWidth <= 992) {
-          nav.classList.remove('active');
-          toggle.innerHTML = '<i class="fas fa-bars"></i>';
-        }
+        closeMenu();
       });
     });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && wrapper.classList.contains('active')) {
+        closeMenu();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 1080 && wrapper.classList.contains('active')) {
+        closeMenu();
+      }
+    });
+  },
+
+  initScrollSpy() {
+    const sections = document.querySelectorAll('section[id], header[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    if (!sections.length || !navLinks.length) return;
+
+    window.addEventListener('scroll', () => {
+      let currentId = '';
+      const scrollPos = window.scrollY + 140;
+
+      sections.forEach(sec => {
+        const top = sec.offsetTop;
+        const height = sec.offsetHeight;
+        if (scrollPos >= top && scrollPos < top + height) {
+          currentId = sec.getAttribute('id');
+        }
+      });
+
+      if (currentId) {
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === `#${currentId}`) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      }
+    }, { passive: true });
   },
 
   initBackToTop() {
@@ -534,6 +620,9 @@ function showToast(message) {
 }
 
 function openModal(modalId) {
+  if (window.App && typeof window.App.closeMobileMenu === 'function') {
+    window.App.closeMobileMenu();
+  }
   const modal = document.getElementById(modalId);
   if (!modal) return;
   modal.classList.add('is-active');

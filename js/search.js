@@ -130,6 +130,9 @@ const SearchEngine = {
   },
 
   openSearchModal(initialQuery = '') {
+    if (window.App && typeof window.App.closeMobileMenu === 'function') {
+      window.App.closeMobileMenu();
+    }
     const modal = document.getElementById('searchModal');
     const input = document.getElementById('searchModalInput');
     if (!modal || !input) return;

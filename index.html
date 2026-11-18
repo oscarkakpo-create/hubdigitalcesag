@@ -43,38 +43,62 @@
         </div>
       </a>
 
-      <!-- Menu de navigation desktop (Labels courts et nowrap) -->
+      <!-- Menu de navigation desktop & mobile -->
       <nav aria-label="Navigation principale" class="nav-nav">
-        <ul class="nav-menu" id="navMenu">
-          <li><a href="#accueil" class="nav-link active">Accueil</a></li>
-          <li><a href="#nouveau-etudiant" class="nav-link">Rentrée</a></li>
-          <li><a href="#services" class="nav-link">Services</a></li>
-          <li><a href="#evaluations" class="nav-link">Évaluer</a></li>
-          <li><a href="#depannage" class="nav-link">Dépannage</a></li>
-          <li><a href="#guides" class="nav-link">Tutoriels</a></li>
-          <li><a href="#outils" class="nav-link">Outils</a></li>
-          <li><a href="#contact" class="nav-link">Support</a></li>
-        </ul>
+        <div class="nav-menu-wrapper" id="navMenuWrapper">
+          <div class="mobile-menu-header">
+            <div class="mobile-menu-brand">
+              <i class="fas fa-compass" aria-hidden="true"></i>
+              <span>Navigation du Hub</span>
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Fermer le menu de navigation">
+              <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="#accueil" class="nav-link active"><i class="fas fa-home nav-icon" aria-hidden="true"></i><span>Accueil</span><i class="fas fa-chevron-right nav-arrow" aria-hidden="true"></i></a></li>
+            <li><a href="#nouveau-etudiant" class="nav-link"><i class="fas fa-graduation-cap nav-icon" aria-hidden="true"></i><span>Rentrée</span><i class="fas fa-chevron-right nav-arrow" aria-hidden="true"></i></a></li>
+            <li><a href="#services" class="nav-link"><i class="fas fa-th-large nav-icon" aria-hidden="true"></i><span>Services</span><i class="fas fa-chevron-right nav-arrow" aria-hidden="true"></i></a></li>
+            <li><a href="#evaluations" class="nav-link"><i class="fas fa-star-half-alt nav-icon" aria-hidden="true"></i><span>Évaluer</span><i class="fas fa-chevron-right nav-arrow" aria-hidden="true"></i></a></li>
+            <li><a href="#depannage" class="nav-link"><i class="fas fa-wrench nav-icon" aria-hidden="true"></i><span>Dépannage</span><i class="fas fa-chevron-right nav-arrow" aria-hidden="true"></i></a></li>
+            <li><a href="#guides" class="nav-link"><i class="fas fa-book-open nav-icon" aria-hidden="true"></i><span>Tutoriels</span><i class="fas fa-chevron-right nav-arrow" aria-hidden="true"></i></a></li>
+            <li><a href="#outils" class="nav-link"><i class="fas fa-laptop-code nav-icon" aria-hidden="true"></i><span>Outils</span><i class="fas fa-chevron-right nav-arrow" aria-hidden="true"></i></a></li>
+            <li><a href="#contact" class="nav-link"><i class="fas fa-headset nav-icon" aria-hidden="true"></i><span>Support</span><i class="fas fa-chevron-right nav-arrow" aria-hidden="true"></i></a></li>
+          </ul>
+
+          <div class="mobile-menu-footer">
+            <button class="btn btn-primary btn-sm btn-block" onclick="SearchEngine.openSearchModal(); if (window.App && App.closeMobileMenu) App.closeMobileMenu();">
+              <i class="fas fa-search" aria-hidden="true"></i> Rechercher un service
+            </button>
+            <button class="btn btn-secondary btn-sm btn-block" onclick="openCVModal(); if (window.App && App.closeMobileMenu) App.closeMobileMenu();">
+              <i class="fas fa-file-pdf" aria-hidden="true"></i> Générateur de CV
+            </button>
+          </div>
+        </div>
       </nav>
 
       <!-- Actions rapides dans l'en-tête -->
       <div class="header-actions">
-        <button class="btn-search-trigger" onclick="SearchEngine.openSearchModal()" aria-label="Rechercher un service">
-          <i class="fas fa-search"></i>
+        <button class="btn-search-trigger" onclick="SearchEngine.openSearchModal()" aria-label="Rechercher un service" title="Rechercher (Ctrl+K)">
+          <i class="fas fa-search" aria-hidden="true"></i>
           <span class="search-label">Rechercher...</span>
           <kbd class="search-kbd">Ctrl+K</kbd>
         </button>
 
         <button class="btn-theme-toggle" id="themeToggleBtn" aria-label="Changer le thème visuel" title="Mode clair / sombre">
-          <i class="fas fa-moon"></i>
+          <i class="fas fa-moon" aria-hidden="true"></i>
         </button>
 
-        <button class="btn-mobile-toggle" id="mobileMenuToggle" aria-label="Ouvrir le menu de navigation">
-          <i class="fas fa-bars"></i>
+        <button class="btn-mobile-toggle" id="mobileMenuToggle" aria-label="Ouvrir le menu de navigation" aria-expanded="false" aria-controls="navMenuWrapper">
+          <i class="fas fa-bars" aria-hidden="true"></i>
         </button>
       </div>
     </div>
   </header>
+
+  <!-- Backdrop d'arrière-plan pour le menu mobile (en dehors du header pour couvrir tout l'écran) -->
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop" aria-hidden="true"></div>
 
   <!-- 3. Section Hero avec Recherche Centrale Intelligente -->
   <main>
