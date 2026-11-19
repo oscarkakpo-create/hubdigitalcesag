@@ -3,7 +3,7 @@
  * Caching statique pour performance optimale et accès hors-ligne basique
  */
 
-const CACHE_NAME = 'cesag-hub-v2.4';
+const CACHE_NAME = 'cesag-hub-v2.5';
 const STATIC_ASSETS = [
   './',
   './index.html',
