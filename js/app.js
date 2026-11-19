@@ -23,6 +23,7 @@ const App = {
     this.initPasswordTools();
     this.initConverter();
     this.initCampusLive();
+    this.initPanafricanClocks();
     this.initQrCode();
     this.initBackToTop();
     this.initMobileMenu();
@@ -413,17 +414,103 @@ const App = {
      Bandeau Campus CESAG : Heure de Dakar, Météo en direct & Citations
      ========================================================================== */
   campusQuotes: [
-    { text: "Le meilleur moyen de prévoir le futur, c'est de le créer.", author: "Peter Drucker" },
-    { text: "L'éducation est l'arme la plus puissante pour changer le monde.", author: "Nelson Mandela" },
-    { text: "La gestion consiste à faire les choses comme il faut ; le leadership consiste à faire les bonnes choses.", author: "Peter Drucker" },
-    { text: "En Afrique, un vieillard qui meurt est une bibliothèque qui brûle.", author: "Amadou Hampâté Bâ" },
-    { text: "Les grandes réalisations sont toujours le résultat d'un travail d'équipe.", author: "John C. Maxwell" },
-    { text: "L'excellence n'est pas un acte, mais une habitude.", author: "Aristote" },
-    { text: "Innover, c'est savoir abandonner hier pour conquérir demain.", author: "Peter Drucker" },
-    { text: "Armez-vous de science jusqu'aux dents et arrachez votre patrimoine culturel.", author: "Cheikh Anta Diop" },
-    { text: "La seule façon de faire du bon travail est d'aimer ce que vous faites.", author: "Steve Jobs" }
+    {
+      text: "Le meilleur moyen de prévoir le futur, c'est de le créer.",
+      author: "Peter Drucker",
+      role: "Père du management moderne",
+      context: "Rappelle aux futurs gestionnaires et leaders du CESAG que l'action proactive, la planification stratégique et l'innovation priment toujours sur l'attentisme."
+    },
+    {
+      text: "L'éducation est l'arme la plus puissante pour changer le monde.",
+      author: "Nelson Mandela",
+      role: "Prix Nobel de la Paix & Homme d'État",
+      context: "Souligne la mission fondamentale du CESAG : former le capital humain d'excellence pour bâtir la prospérité économique et institutionnelle de l'Afrique."
+    },
+    {
+      text: "La gestion consiste à faire les choses comme il faut ; le leadership consiste à faire les bonnes choses.",
+      author: "Peter Drucker",
+      role: "Théoricien du management",
+      context: "Distingue l'efficacité opérationnelle de la vision stratégique. Un manager compétent optimise les processus, un leader trace la voie vers l'impact durable."
+    },
+    {
+      text: "En Afrique, un vieillard qui meurt est une bibliothèque qui brûle.",
+      author: "Amadou Hampâté Bâ",
+      role: "Écrivain & Penseur malien",
+      context: "Met en lumière l'importance vitale de la transmission des savoirs, de la mémoire organisationnelle et du respect des mentors dans la gouvernance africaine."
+    },
+    {
+      text: "Les grandes réalisations sont toujours le résultat d'un travail d'équipe.",
+      author: "John C. Maxwell",
+      role: "Expert mondial en leadership",
+      context: "Les projets d'envergure en entreprise ou dans l'administration publique ne réussissent jamais seuls : la cohésion d'équipe et la confiance en sont les piliers."
+    },
+    {
+      text: "Armez-vous de science jusqu'aux dents et arrachez votre patrimoine culturel.",
+      author: "Cheikh Anta Diop",
+      role: "Savant, historien & anthropologue sénégalais",
+      context: "Appel vibrant à la rigueur scientifique, à la recherche académique exigeante et à l'émancipation intellectuelle pour la jeunesse africaine."
+    },
+    {
+      text: "Innover, c'est savoir abandonner hier pour conquérir demain.",
+      author: "Peter Drucker",
+      role: "Consultant & Professeur",
+      context: "Invite à l'agilité organisationnelle et à l'adoption résolue de la transformation digitale et des technologies émergentes."
+    },
+    {
+      text: "L'excellence n'est pas un acte, mais une habitude.",
+      author: "Aristote",
+      role: "Philosophe",
+      context: "La réputation d'un diplômé du CESAG se forge dans la constance, la discipline quotidienne et la recherche permanente de la qualité irréprochable."
+    }
   ],
   currentQuoteIdx: 0,
+
+  openQuoteModal() {
+    const q = this.campusQuotes[this.currentQuoteIdx] || this.campusQuotes[0];
+    const bodyEl = document.getElementById('modalQuoteBody');
+    const authorEl = document.getElementById('modalQuoteAuthor');
+    const roleEl = document.getElementById('modalQuoteRole');
+    const contextEl = document.getElementById('modalQuoteContext');
+    if (bodyEl) bodyEl.textContent = `« ${q.text} »`;
+    if (authorEl) authorEl.textContent = q.author;
+    if (roleEl) roleEl.textContent = `— ${q.role || 'Leader & Penseur'}`;
+    if (contextEl) contextEl.textContent = q.context || '';
+    if (typeof openModal === 'function') openModal('quoteModal');
+  },
+
+  copyQuote() {
+    const q = this.campusQuotes[this.currentQuoteIdx] || this.campusQuotes[0];
+    const textToCopy = `« ${q.text} » — ${q.author} (${q.role || ''})`;
+    const updateLabel = () => {
+      const label = document.getElementById('copyQuoteLabel');
+      if (label) {
+        const old = label.textContent;
+        label.textContent = 'Copié !';
+        setTimeout(() => { label.textContent = old; }, 2000);
+      }
+    };
+
+    const fallbackCopy = () => {
+      const ta = document.createElement('textarea');
+      ta.value = textToCopy;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        document.execCommand('copy');
+        updateLabel();
+      } catch (e) {}
+      document.body.removeChild(ta);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(textToCopy).then(updateLabel).catch(fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+  },
 
   refreshQuote() {
     if (!this.campusQuotes || !this.campusQuotes.length) return;
@@ -435,6 +522,14 @@ const App = {
       textEl.textContent = `« ${q.text} »`;
       authorEl.textContent = `— ${q.author}`;
     }
+    const modalBody = document.getElementById('modalQuoteBody');
+    const modalAuthor = document.getElementById('modalQuoteAuthor');
+    const modalRole = document.getElementById('modalQuoteRole');
+    const modalContext = document.getElementById('modalQuoteContext');
+    if (modalBody) modalBody.textContent = `« ${q.text} »`;
+    if (modalAuthor) modalAuthor.textContent = q.author;
+    if (modalRole) modalRole.textContent = `— ${q.role || ''}`;
+    if (modalContext) modalContext.textContent = q.context || '';
   },
 
   initCampusLive() {
@@ -507,6 +602,131 @@ const App = {
 
     // 3. Charger une première citation
     this.refreshQuote();
+  },
+
+  /* ==========================================================================
+     Horloge Panafricaine des Capitales CESAG
+     ========================================================================== */
+  panafricanCities: [
+    { name: "Dakar (Siège)", flag: "🇸🇳", timeZone: "Africa/Dakar", isSiege: true },
+    { name: "Abidjan", flag: "🇨🇮", timeZone: "Africa/Abidjan" },
+    { name: "Lomé", flag: "🇹🇬", timeZone: "Africa/Lome" },
+    { name: "Ouaga", flag: "🇧🇫", timeZone: "Africa/Ouagadougou" },
+    { name: "Bamako", flag: "🇲🇱", timeZone: "Africa/Bamako" },
+    { name: "Conakry", flag: "🇬🇳", timeZone: "Africa/Conakry" },
+    { name: "Cotonou", flag: "🇧🇯", timeZone: "Africa/Porto-Novo" },
+    { name: "Niamey", flag: "🇳🇪", timeZone: "Africa/Niamey" },
+    { name: "Yaoundé", flag: "🇨🇲", timeZone: "Africa/Douala" },
+    { name: "Libreville", flag: "🇬🇦", timeZone: "Africa/Libreville" },
+    { name: "Paris", flag: "🇫🇷", timeZone: "Europe/Paris" }
+  ],
+
+  initPanafricanClocks() {
+    const track = document.getElementById('panafricanZonesTrack');
+    if (!track) return;
+
+    const render = () => {
+      const now = new Date();
+      track.innerHTML = this.panafricanCities.map(c => {
+        const timeStr = now.toLocaleTimeString('fr-FR', {
+          timeZone: c.timeZone,
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        return `<span class="panafrican-pill ${c.isSiege ? 'is-siege' : ''}">
+          <span>${c.flag}</span>
+          <span>${c.name} :</span>
+          <strong>${timeStr}</strong>
+        </span>`;
+      }).join('');
+    };
+
+    render();
+    setInterval(render, 15000);
+  },
+
+  /* ==========================================================================
+     Lexique & Dictionnaire Business English (Free Dictionary API)
+     ========================================================================== */
+  lookupWord(word) {
+    const input = document.getElementById('dictInput');
+    if (input) input.value = word;
+    this.searchDictionary(word);
+  },
+
+  async searchDictionary(wordParam) {
+    const input = document.getElementById('dictInput');
+    const box = document.getElementById('dictResultBox');
+    const btn = document.getElementById('dictSearchBtn');
+    if (!box) return;
+
+    const word = (wordParam || (input && input.value) || '').trim().toLowerCase();
+    if (!word) {
+      box.innerHTML = '<p style="color: var(--text-muted); text-align: center;">Veuillez entrer un mot à rechercher.</p>';
+      return;
+    }
+
+    if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    box.innerHTML = '<div style="text-align: center; padding: 1.5rem; color: var(--text-muted);"><i class="fas fa-spinner fa-spin" style="font-size: 1.5rem;"></i><p style="margin-top: 0.5rem;">Interrogation du dictionnaire académique...</p></div>';
+
+    try {
+      const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+      if (!res.ok) {
+        throw new Error('Terme non trouvé');
+      }
+      const data = await res.json();
+      const entry = data[0];
+      const phonetic = entry.phonetic || (entry.phonetics && entry.phonetics.find(p => p.text)?.text) || '';
+      const audioUrl = (entry.phonetics && entry.phonetics.find(p => p.audio && p.audio.length > 0)?.audio) || '';
+
+      let meaningsHtml = '';
+      if (entry.meanings && entry.meanings.length) {
+        meaningsHtml = entry.meanings.slice(0, 3).map(m => {
+          const defs = m.definitions.slice(0, 2).map(d => `
+            <li style="margin-bottom: 0.45rem; line-height: 1.45;">
+              <span style="color: var(--text-primary);">${d.definition}</span>
+              ${d.example ? `<span style="display: block; font-style: italic; color: var(--text-muted); font-size: 0.8rem; margin-top: 0.15rem;">« ${d.example} »</span>` : ''}
+            </li>
+          `).join('');
+          return `
+            <div style="margin-top: 0.75rem;">
+              <span style="display: inline-block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; background: rgba(139, 92, 246, 0.15); color: #7C3AED; padding: 0.1rem 0.5rem; border-radius: 4px;">${m.partOfSpeech}</span>
+              <ul style="margin: 0.4rem 0 0 1.25rem; font-size: 0.85rem;">${defs}</ul>
+            </div>
+          `;
+        }).join('');
+      }
+
+      box.innerHTML = `
+        <div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem;">
+            <div>
+              <strong style="font-family: var(--font-heading); font-size: 1.35rem; color: var(--cesag-green-600);">${entry.word}</strong>
+              ${phonetic ? `<span style="font-size: 0.85rem; color: var(--text-muted); margin-left: 0.5rem;">${phonetic}</span>` : ''}
+            </div>
+            ${audioUrl ? `
+              <button type="button" class="btn btn-outline btn-sm" onclick="new Audio('${audioUrl}').play();" title="Écouter la prononciation" style="padding: 0.2rem 0.6rem; font-size: 0.75rem;">
+                <i class="fas fa-volume-up"></i> Prononciation
+              </button>
+            ` : ''}
+          </div>
+          ${meaningsHtml}
+          <div style="font-size: 0.72rem; color: var(--text-muted); text-align: right; margin-top: 0.75rem;">
+            Source : Free Dictionary API & Wiktionary
+          </div>
+        </div>
+      `;
+    } catch (err) {
+      box.innerHTML = `
+        <div style="text-align: center; padding: 1rem; color: var(--text-muted);">
+          <i class="fas fa-info-circle" style="color: var(--cesag-gold-600); font-size: 1.3rem; margin-bottom: 0.4rem; display: block;"></i>
+          <p style="font-weight: 600; color: var(--text-primary);">Mot « ${word} » non répertorié ou orthographe à vérifier.</p>
+          <p style="font-size: 0.8rem; margin-top: 0.25rem;">Conseil : Entrez des termes en anglais tels que <em>management</em>, <em>audit</em>, <em>procurement</em>, <em>logistics</em> ou <em>strategy</em>.</p>
+        </div>
+      `;
+    } finally {
+      if (btn) btn.innerHTML = '<i class="fas fa-search"></i> Définir';
+    }
   },
 
   /* ==========================================================================

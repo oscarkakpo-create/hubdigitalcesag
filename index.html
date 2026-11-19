@@ -168,16 +168,31 @@
 
           <div class="campus-quote-col">
             <div class="campus-quote-content">
-              <span class="campus-live-caption"><i class="fas fa-lightbulb" style="color: var(--cesag-gold-500);"></i> Pensée Managériale & Leadership</span>
-              <div class="campus-quote-text" id="campusQuoteText">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                <span class="campus-live-caption"><i class="fas fa-lightbulb" style="color: var(--cesag-gold-500);"></i> Pensée Managériale</span>
+                <button type="button" class="btn-quote-more" onclick="App.openQuoteModal()" title="Afficher la pensée complète">
+                  Afficher plus <i class="fas fa-expand-alt" style="font-size: 0.65rem;"></i>
+                </button>
+              </div>
+              <div class="campus-quote-text" id="campusQuoteText" onclick="App.openQuoteModal()" style="cursor: pointer;" title="Cliquer pour afficher la pensée complète">
                 <i class="fas fa-quote-left campus-quote-icon"></i>
                 <span id="campusQuoteBody">« Le meilleur moyen de prévoir le futur, c'est de le créer. »</span>
               </div>
-              <span class="campus-quote-author" id="campusQuoteAuthor">— Peter Drucker</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.25rem;">
+                <span class="campus-quote-author" id="campusQuoteAuthor">— Peter Drucker</span>
+                <button class="btn-quote-refresh" id="btnRefreshQuote" onclick="App.refreshQuote(); event.stopPropagation();" title="Nouvelle citation" aria-label="Nouvelle citation">
+                  <i class="fas fa-sync-alt"></i>
+                </button>
+              </div>
             </div>
-            <button class="btn-quote-refresh" id="btnRefreshQuote" onclick="App.refreshQuote()" title="Nouvelle citation" aria-label="Nouvelle citation">
-              <i class="fas fa-sync-alt"></i>
-            </button>
+          </div>
+        </div>
+
+        <!-- Horloge Panafricaine des Capitales (API Fuseaux Horaires Panafricains) -->
+        <div class="panafrican-zones-bar" id="panafricanZonesBar" aria-label="Horloge Panafricaine des Capitales CESAG">
+          <span class="panafrican-zones-title"><i class="fas fa-globe-africa"></i> Fuseaux Panafricains :</span>
+          <div class="panafrican-zones-track" id="panafricanZonesTrack">
+            <!-- Rempli en direct par App.initPanafricanClocks() -->
           </div>
         </div>
       </div>
@@ -433,11 +448,20 @@
     <section class="section" id="outils">
       <div class="container">
         <div class="section-header">
-          <span class="section-badge"><i class="fas fa-toolbox"></i> Utilitaires Pratiques</span>
-          <h2 class="section-title">Boîte à Outils Étudiant</h2>
+          <span class="section-badge"><i class="fas fa-network-wired"></i> Écosystème & APIs Connectées</span>
+          <h2 class="section-title">Panoplie d'Outils Numériques & APIs</h2>
           <p class="section-subtitle">
-            Modèles d'emails professionnels, générateur de CV standardisé, convertisseur XOF et sécurité numérique.
+            Services connectés en direct : taux de change BCEAO, générateur QR code, lexique business english, météo Dakar, recherche scientifique mondiale et horloge panafricaine.
           </p>
+          <div class="api-showcase-pills">
+            <span class="api-live-tag"><i class="fas fa-check-circle"></i> API Météo Campus</span>
+            <span class="api-live-tag"><i class="fas fa-check-circle"></i> API Fuseaux Panafricains</span>
+            <span class="api-live-tag"><i class="fas fa-check-circle"></i> API Citations Leadership</span>
+            <span class="api-live-tag"><i class="fas fa-check-circle"></i> API Taux BCEAO / XOF</span>
+            <span class="api-live-tag"><i class="fas fa-check-circle"></i> API QR Code HD</span>
+            <span class="api-live-tag"><i class="fas fa-check-circle"></i> API Thèses OpenAlex</span>
+            <span class="api-live-tag"><i class="fas fa-check-circle"></i> API Business English</span>
+          </div>
         </div>
 
         <!-- Outils interactifs en cartes vedettes -->
@@ -486,7 +510,7 @@
               <div class="service-icon-wrapper" style="color: #3B82F6;">
                 <i class="fas fa-coins"></i>
               </div>
-              <span class="badge tag-free">Finances & Taux</span>
+              <span class="badge tag-free">API Taux Direct</span>
             </div>
             <div class="service-card-body">
               <h3 class="service-card-title">Convertisseur FCFA (XOF)</h3>
@@ -505,7 +529,7 @@
               <div class="service-icon-wrapper" style="color: var(--cesag-green-600);">
                 <i class="fas fa-qrcode"></i>
               </div>
-              <span class="badge tag-essential">Outil Pratique</span>
+              <span class="badge tag-essential">API QRServer</span>
             </div>
             <div class="service-card-body">
               <h3 class="service-card-title">Générateur de QR Code</h3>
@@ -514,6 +538,44 @@
             <div class="service-card-footer">
               <button onclick="openModal('qrModal')" class="btn btn-primary btn-sm btn-block">
                 Générer un QR Code <i class="fas fa-qrcode" style="font-size: 0.75rem;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Carte 5 : Lexique & Dictionnaire Business English -->
+          <div class="service-card" style="border-left: 4px solid #8B5CF6;">
+            <div class="service-card-header">
+              <div class="service-icon-wrapper" style="color: #8B5CF6;">
+                <i class="fas fa-book-open"></i>
+              </div>
+              <span class="badge tag-free">API Dictionary</span>
+            </div>
+            <div class="service-card-body">
+              <h3 class="service-card-title">Dictionnaire Business English</h3>
+              <p class="service-card-desc">Définitions officielles, phonétique et expressions managériales internationales pour vos cours et exposés.</p>
+            </div>
+            <div class="service-card-footer">
+              <button onclick="openModal('dictionaryModal')" class="btn btn-outline btn-sm btn-block">
+                Consulter le Lexique <i class="fas fa-search" style="font-size: 0.75rem;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Carte 6 : Pensée & Leadership Managériale -->
+          <div class="service-card" style="border-left: 4px solid var(--cesag-gold-500);">
+            <div class="service-card-header">
+              <div class="service-icon-wrapper" style="color: var(--cesag-gold-600);">
+                <i class="fas fa-lightbulb"></i>
+              </div>
+              <span class="badge tag-mandatory">Leadership & Culture</span>
+            </div>
+            <div class="service-card-body">
+              <h3 class="service-card-title">Pensées & Citations de Leaders</h3>
+              <p class="service-card-desc">Maximes et leçons de grands penseurs et bâtisseurs africains et mondiaux pour inspirer votre parcours.</p>
+            </div>
+            <div class="service-card-footer">
+              <button onclick="openModal('quoteModal')" class="btn btn-secondary btn-sm btn-block">
+                Explorer les Citations <i class="fas fa-quote-right" style="font-size: 0.75rem;"></i>
               </button>
             </div>
           </div>
@@ -966,6 +1028,82 @@
         <a id="qrDownloadLink" href="#" download="cesag-qrcode.png" target="_blank" class="btn btn-primary">
           <i class="fas fa-download"></i> Télécharger le QR Code
         </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Pensée Managériale & Leadership du Jour -->
+  <div class="modal-backdrop" id="quoteModal" onclick="if(event.target === this) closeModal('quoteModal')">
+    <div class="modal-panel" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fas fa-lightbulb" style="color: var(--cesag-gold-500);"></i> Pensée Managériale & Leadership</h3>
+        <button class="modal-close-btn" onclick="closeModal('quoteModal')" aria-label="Fermer"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" style="padding: 1.75rem 1.5rem; text-align: center;">
+        <div style="font-size: 2.2rem; color: var(--cesag-gold-500); margin-bottom: 0.5rem; opacity: 0.85;">
+          <i class="fas fa-quote-left"></i>
+        </div>
+        <p id="modalQuoteBody" style="font-family: var(--font-heading); font-size: 1.25rem; font-style: italic; line-height: 1.55; color: var(--text-primary); margin-bottom: 1.25rem;">
+          « Le meilleur moyen de prévoir le futur, c'est de le créer. »
+        </p>
+        <div style="display: inline-block; padding: 0.4rem 1rem; background: var(--bg-surface-alt); border-radius: var(--radius-full); border: 1px solid var(--border-subtle); margin-bottom: 1rem;">
+          <strong id="modalQuoteAuthor" style="font-size: 0.95rem; color: var(--cesag-green-600);">Peter Drucker</strong>
+          <span id="modalQuoteRole" style="font-size: 0.8rem; color: var(--text-muted); margin-left: 0.35rem;">— Père du management moderne</span>
+        </div>
+        <p id="modalQuoteContext" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; max-width: 480px; margin: 0 auto 1.35rem;">
+          Cette maxime rappelle aux futurs gestionnaires et leaders du CESAG que la stratégie et l'action proactive priment toujours sur l'attentisme.
+        </p>
+        <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
+          <button type="button" class="btn btn-primary btn-sm" onclick="App.refreshQuote()">
+            <i class="fas fa-sync-alt"></i> Nouvelle citation
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" id="btnCopyQuote" onclick="App.copyQuote()">
+            <i class="fas fa-copy"></i> <span id="copyQuoteLabel">Copier la citation</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('quoteModal')">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Lexique & Dictionnaire Business English (API Free Dictionary) -->
+  <div class="modal-backdrop" id="dictionaryModal" onclick="if(event.target === this) closeModal('dictionaryModal')">
+    <div class="modal-panel" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fas fa-book-open" style="color: var(--cesag-green-600);"></i> Dictionnaire Business English</h3>
+        <button class="modal-close-btn" onclick="closeModal('dictionaryModal')" aria-label="Fermer"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          Définitions officielles, phonétique et expressions managériales internationales issues de l'API Free Dictionary pour vos travaux et cours d'anglais des affaires.
+        </p>
+        <form onsubmit="event.preventDefault(); App.searchDictionary();" style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
+          <input type="text" id="dictInput" class="form-control" placeholder="ex. strategy, governance, audit, logistics, leadership..." value="strategy">
+          <button type="submit" class="btn btn-primary" id="dictSearchBtn">
+            <i class="fas fa-search"></i> Définir
+          </button>
+        </form>
+
+        <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; align-items: center;">
+          <span style="font-size: 0.75rem; color: var(--text-muted);">Mots fréquents :</span>
+          <button type="button" class="search-chip" onclick="App.lookupWord('management')">management</button>
+          <button type="button" class="search-chip" onclick="App.lookupWord('procurement')">procurement</button>
+          <button type="button" class="search-chip" onclick="App.lookupWord('governance')">governance</button>
+          <button type="button" class="search-chip" onclick="App.lookupWord('audit')">audit</button>
+          <button type="button" class="search-chip" onclick="App.lookupWord('fintech')">fintech</button>
+        </div>
+
+        <div id="dictResultBox" style="background: var(--bg-surface-alt); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.25rem; min-height: 120px;">
+          <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 1rem 0;">
+            <i class="fas fa-search" style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block; opacity: 0.5;"></i>
+            Entrez un terme en anglais ou cliquez sur une suggestion pour afficher sa définition académique.
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('dictionaryModal')">Fermer</button>
       </div>
     </div>
   </div>
