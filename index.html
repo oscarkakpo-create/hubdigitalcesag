@@ -130,7 +130,7 @@
           <!-- Mots-clés / Suggestions rapides -->
           <div class="hero-search-tags">
             <span class="hero-tag-label">Accès rapides :</span>
-            <button class="search-chip" onclick="SearchEngine.openSearchModal('Moodle')">Moodle FOAD</button>
+            <button class="search-chip" onclick="SearchEngine.openSearchModal('Moodle')">Moodle CESAG</button>
             <button class="search-chip" onclick="SearchEngine.openSearchModal('Office 365')">Office 365</button>
             <button class="search-chip" onclick="SearchEngine.openSearchModal('Teams')">Microsoft Teams</button>
             <button class="search-chip" onclick="SearchEngine.openSearchModal('mot de passe')">Mot de passe</button>
@@ -139,36 +139,45 @@
           </div>
         </div>
 
-        <!-- Horloge Universelle des Cours FOAD & Campus CESAG -->
-        <div class="foad-clock-card" id="foadClockCard" aria-label="Horloge en direct des cours FOAD">
-          <div class="foad-clock-col">
-            <span class="foad-clock-pulse" aria-hidden="true"></span>
+        <!-- Bandeau Campus CESAG Dakar : Heure officielle, Météo en direct & Citation Managériale -->
+        <div class="campus-live-bar" id="campusLiveBar" aria-label="Bandeau Campus CESAG Dakar">
+          <div class="campus-live-col">
+            <span class="campus-live-pulse" aria-hidden="true"></span>
             <div>
-              <span class="foad-clock-caption"><i class="fas fa-map-marker-alt"></i> Dakar (CESAG • Réf. FOAD)</span>
-              <strong class="foad-clock-time" id="foadDakarTime">--:--:-- GMT</strong>
-            </div>
-          </div>
-
-          <div class="foad-clock-divider" aria-hidden="true"></div>
-
-          <div class="foad-clock-col">
-            <div>
-              <span class="foad-clock-caption"><i class="fas fa-user-clock"></i> Votre heure locale</span>
-              <div>
-                <strong class="foad-clock-time" id="foadLocalTime">--:--:--</strong>
-                <span class="foad-clock-diff" id="foadTimeDiff">Calcul...</span>
+              <span class="campus-live-caption"><i class="fas fa-map-marker-alt"></i> Campus CESAG • Dakar</span>
+              <div class="campus-live-row">
+                <strong class="campus-live-time" id="campusDakarTime">--:--:-- GMT</strong>
+                <span class="campus-live-date" id="campusDakarDate">Chargement...</span>
               </div>
             </div>
           </div>
 
-          <div class="foad-clock-divider" aria-hidden="true"></div>
+          <div class="campus-live-divider" aria-hidden="true"></div>
 
-          <div class="foad-session-badge">
-            <i class="fas fa-video" aria-hidden="true"></i>
+          <div class="campus-live-col">
             <div>
-              <span class="foad-status-title" id="foadStatusTitle">Séances de cours du soir</span>
-              <span class="foad-status-desc" id="foadStatusCountdown">Début des cours à 18h00 GMT</span>
+              <span class="campus-live-caption"><i class="fas fa-cloud-sun"></i> Météo Campus en direct</span>
+              <div class="campus-weather-row">
+                <span class="campus-weather-temp" id="campusWeatherTemp">--°C</span>
+                <span class="campus-weather-desc" id="campusWeatherDesc">Dakar en direct</span>
+              </div>
             </div>
+          </div>
+
+          <div class="campus-live-divider" aria-hidden="true"></div>
+
+          <div class="campus-quote-col">
+            <div class="campus-quote-content">
+              <span class="campus-live-caption"><i class="fas fa-lightbulb" style="color: var(--cesag-gold-500);"></i> Pensée Managériale & Leadership</span>
+              <div class="campus-quote-text" id="campusQuoteText">
+                <i class="fas fa-quote-left campus-quote-icon"></i>
+                <span id="campusQuoteBody">« Le meilleur moyen de prévoir le futur, c'est de le créer. »</span>
+              </div>
+              <span class="campus-quote-author" id="campusQuoteAuthor">— Peter Drucker</span>
+            </div>
+            <button class="btn-quote-refresh" id="btnRefreshQuote" onclick="App.refreshQuote()" title="Nouvelle citation" aria-label="Nouvelle citation">
+              <i class="fas fa-sync-alt"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -276,13 +285,13 @@
       </div>
     </section>
 
-    <!-- Moodle FOAD : synthèse issue de la formation 2026-2027 -->
+    <!-- Moodle CESAG : synthèse de la plateforme pédagogique -->
     <section class="section section-alt platform-section" id="moodle-foad" aria-labelledby="moodleTitle">
       <div class="container">
         <div class="platform-hero">
           <div>
             <span class="section-badge"><i class="fas fa-graduation-cap"></i> Espace académique</span>
-            <h2 class="section-title" id="moodleTitle">Moodle FOAD — votre espace académique en ligne</h2>
+            <h2 class="section-title" id="moodleTitle">Moodle CESAG — votre espace pédagogique numérique</h2>
             <p class="section-subtitle">Retrouvez vos cours, annonces, ressources, activités et résultats depuis un seul espace.</p>
           </div>
           <a class="btn btn-primary" href="https://formations.cesagonline.com" target="_blank" rel="noopener noreferrer">Accéder à Moodle <i class="fas fa-external-link-alt"></i></a>
@@ -481,11 +490,30 @@
             </div>
             <div class="service-card-body">
               <h3 class="service-card-title">Convertisseur FCFA (XOF)</h3>
-              <p class="service-card-desc">Convertisseur rapide et précis basé sur la parité fixe Euro / FCFA (1 € = 655,957 FCFA) et Dollar US.</p>
+              <p class="service-card-desc">Convertisseur basé sur la parité fixe Euro / FCFA (1 € = 655,957 FCFA) et les taux interbancaires en direct.</p>
             </div>
             <div class="service-card-footer">
               <button onclick="openModal('converterModal')" class="btn btn-outline btn-sm btn-block">
                 Calculer <i class="fas fa-calculator" style="font-size: 0.75rem;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Carte 4 : Générateur de QR Code Académique -->
+          <div class="service-card" style="border-left: 4px solid var(--cesag-green-500);">
+            <div class="service-card-header">
+              <div class="service-icon-wrapper" style="color: var(--cesag-green-600);">
+                <i class="fas fa-qrcode"></i>
+              </div>
+              <span class="badge tag-essential">Outil Pratique</span>
+            </div>
+            <div class="service-card-body">
+              <h3 class="service-card-title">Générateur de QR Code</h3>
+              <p class="service-card-desc">Créez des QR codes HD personnalisés pour vos mémoires, exposés, rapports de stage et cartes de visite.</p>
+            </div>
+            <div class="service-card-footer">
+              <button onclick="openModal('qrModal')" class="btn btn-primary btn-sm btn-block">
+                Générer un QR Code <i class="fas fa-qrcode" style="font-size: 0.75rem;"></i>
               </button>
             </div>
           </div>
@@ -884,6 +912,60 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-outline" onclick="closeModal('converterModal')">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Générateur de QR Code Académique (API QRServer) -->
+  <div class="modal-backdrop" id="qrModal" onclick="if(event.target === this) closeModal('qrModal')">
+    <div class="modal-panel" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fas fa-qrcode" style="color: var(--cesag-green-600);"></i> Générateur de QR Code Académique</h3>
+        <button class="modal-close-btn" onclick="closeModal('qrModal')" aria-label="Fermer"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.15rem;">
+          Générez un QR Code haute définition pour vos mémoires, exposés, présentations ou liens utiles.
+        </p>
+        <div style="margin-bottom: 1rem;">
+          <label class="form-label" for="qrTextInput">Contenu ou URL :</label>
+          <input type="text" id="qrTextInput" class="form-control" placeholder="Entrez une URL ou un texte..." value="https://oscarkakpo-create.github.io/hubdigitalcesag/">
+        </div>
+        <div style="display: flex; gap: 0.75rem; margin-bottom: 1.25rem;">
+          <div style="flex: 1;">
+            <label class="form-label" for="qrSizeSelect">Format :</label>
+            <select id="qrSizeSelect" class="form-control">
+              <option value="200x200">Standard (200x200)</option>
+              <option value="300x300" selected>Haute Résolution (300x300)</option>
+              <option value="450x450">Impression A4 (450x450)</option>
+            </select>
+          </div>
+          <div style="flex: 1;">
+            <label class="form-label" for="qrColorSelect">Couleur :</label>
+            <select id="qrColorSelect" class="form-control">
+              <option value="006747" selected>Vert CESAG</option>
+              <option value="000000">Noir classique</option>
+              <option value="1E3A8A">Bleu nuit</option>
+              <option value="B45309">Or / Bronze</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg-surface-alt); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 0.75rem;">
+          <div id="qrLoadingSpinner" style="display: none; margin-bottom: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">
+            <i class="fas fa-spinner fa-spin"></i> Génération en cours...
+          </div>
+          <img id="qrImagePreview" src="" alt="Aperçu QR Code Académique" style="width: 180px; height: 180px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); background: #ffffff; padding: 6px;">
+          <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.75rem;">
+            <i class="fas fa-satellite-dish" style="color: var(--cesag-green-600);"></i> Généré via l'API QR Server (Libre & Haute Disponibilité)
+          </span>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <button class="btn btn-outline" onclick="closeModal('qrModal')">Fermer</button>
+        <a id="qrDownloadLink" href="#" download="cesag-qrcode.png" target="_blank" class="btn btn-primary">
+          <i class="fas fa-download"></i> Télécharger le QR Code
+        </a>
       </div>
     </div>
   </div>

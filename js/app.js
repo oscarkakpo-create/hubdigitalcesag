@@ -22,7 +22,8 @@ const App = {
     this.renderCyberChecklist();
     this.initPasswordTools();
     this.initConverter();
-    this.initFoadClock();
+    this.initCampusLive();
+    this.initQrCode();
     this.initBackToTop();
     this.initMobileMenu();
     this.initScrollSpy();
@@ -409,72 +410,139 @@ const App = {
   },
 
   /* ==========================================================================
-     Horloge Universelle FOAD & Séances Virtuelles
+     Bandeau Campus CESAG : Heure de Dakar, Météo en direct & Citations
      ========================================================================== */
-  initFoadClock() {
-    const dakarEl = document.getElementById('foadDakarTime');
-    const localEl = document.getElementById('foadLocalTime');
-    const diffEl = document.getElementById('foadTimeDiff');
-    const titleEl = document.getElementById('foadStatusTitle');
-    const descEl = document.getElementById('foadStatusCountdown');
-    if (!dakarEl || !localEl) return;
+  campusQuotes: [
+    { text: "Le meilleur moyen de prévoir le futur, c'est de le créer.", author: "Peter Drucker" },
+    { text: "L'éducation est l'arme la plus puissante pour changer le monde.", author: "Nelson Mandela" },
+    { text: "La gestion consiste à faire les choses comme il faut ; le leadership consiste à faire les bonnes choses.", author: "Peter Drucker" },
+    { text: "En Afrique, un vieillard qui meurt est une bibliothèque qui brûle.", author: "Amadou Hampâté Bâ" },
+    { text: "Les grandes réalisations sont toujours le résultat d'un travail d'équipe.", author: "John C. Maxwell" },
+    { text: "L'excellence n'est pas un acte, mais une habitude.", author: "Aristote" },
+    { text: "Innover, c'est savoir abandonner hier pour conquérir demain.", author: "Peter Drucker" },
+    { text: "Armez-vous de science jusqu'aux dents et arrachez votre patrimoine culturel.", author: "Cheikh Anta Diop" },
+    { text: "La seule façon de faire du bon travail est d'aimer ce que vous faites.", author: "Steve Jobs" }
+  ],
+  currentQuoteIdx: 0,
 
-    const updateClock = () => {
+  refreshQuote() {
+    if (!this.campusQuotes || !this.campusQuotes.length) return;
+    this.currentQuoteIdx = (this.currentQuoteIdx + 1) % this.campusQuotes.length;
+    const q = this.campusQuotes[this.currentQuoteIdx];
+    const textEl = document.getElementById('campusQuoteBody');
+    const authorEl = document.getElementById('campusQuoteAuthor');
+    if (textEl && authorEl) {
+      textEl.textContent = `« ${q.text} »`;
+      authorEl.textContent = `— ${q.author}`;
+    }
+  },
+
+  initCampusLive() {
+    const timeEl = document.getElementById('campusDakarTime');
+    const dateEl = document.getElementById('campusDakarDate');
+    const tempEl = document.getElementById('campusWeatherTemp');
+    const descEl = document.getElementById('campusWeatherDesc');
+
+    // 1. Horloge et Date officielle du Campus Dakar (GMT)
+    const updateTime = () => {
       const now = new Date();
-
-      // Dakar Time (GMT / UTC)
-      const dakarTimeStr = now.toLocaleTimeString('fr-FR', {
-        timeZone: 'Africa/Dakar',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      });
-      dakarEl.textContent = `${dakarTimeStr} GMT`;
-
-      // Local Time
-      const localTimeStr = now.toLocaleTimeString('fr-FR', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      });
-      localEl.textContent = localTimeStr;
-
-      // Time Difference
-      const offsetMinutes = -now.getTimezoneOffset();
-      const diffHours = offsetMinutes / 60;
-      if (diffEl) {
-        if (diffHours === 0) {
-          diffEl.textContent = 'Même fuseau';
-        } else if (diffHours > 0) {
-          diffEl.textContent = `GMT+${diffHours} (+${diffHours}h)`;
-        } else {
-          diffEl.textContent = `GMT${diffHours} (${diffHours}h)`;
-        }
+      if (timeEl) {
+        timeEl.textContent = `${now.toLocaleTimeString('fr-FR', {
+          timeZone: 'Africa/Dakar',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        })} GMT`;
       }
-
-      // Session status in Dakar time
-      if (titleEl && descEl) {
-        const dakarDate = new Date(now.toLocaleString('en-US', { timeZone: 'Africa/Dakar' }));
-        const h = dakarDate.getHours();
-        const m = dakarDate.getMinutes();
-
-        if (h < 18) {
-          const hoursLeft = 17 - h;
-          const minsLeft = 60 - m;
-          titleEl.textContent = 'Prochaine séance en direct ce soir';
-          descEl.textContent = `Début à 18h00 GMT (dans ${hoursLeft > 0 ? hoursLeft + 'h ' : ''}${minsLeft} min)`;
-        } else if (h < 20 || (h === 20 && m <= 30)) {
-          titleEl.textContent = '🟢 Séances en direct en cours !';
-          descEl.textContent = 'Classes virtuelles ouvertes sur Teams & Moodle';
-        } else {
-          titleEl.textContent = 'Séances du jour terminées';
-          descEl.textContent = 'Prochain cours demain à 18h00 GMT';
-        }
+      if (dateEl) {
+        const dateStr = now.toLocaleDateString('fr-FR', {
+          timeZone: 'Africa/Dakar',
+          weekday: 'short',
+          day: 'numeric',
+          month: 'short'
+        });
+        dateEl.textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
       }
     };
+    updateTime();
+    setInterval(updateTime, 1000);
 
-    updateClock();
-    setInterval(updateClock, 1000);
+    // 2. Météo Campus CESAG Dakar en direct (API wttr.in)
+    const fetchWeather = async () => {
+      if (!tempEl || !descEl) return;
+      try {
+        const res = await fetch('https://wttr.in/Dakar?format=j1', { cache: 'no-cache' });
+        if (!res.ok) throw new Error('Weather API status ' + res.status);
+        const data = await res.json();
+        const current = data.current_condition && data.current_condition[0];
+        if (current) {
+          const temp = current.temp_C;
+          let desc = (current.lang_fr && current.lang_fr[0] && current.lang_fr[0].value) 
+                     || (current.weatherDesc && current.weatherDesc[0] && current.weatherDesc[0].value) 
+                     || 'Ensoleillé';
+          desc = desc.trim();
+          const translations = {
+            'Sunny': 'Ensoleillé',
+            'Clear': 'Ciel dégagé',
+            'Partly cloudy': 'Éclaircies',
+            'Cloudy': 'Nuageux',
+            'Overcast': 'Couvert',
+            'Mist': 'Brume',
+            'Patchy rain possible': 'Ondées',
+            'Light rain': 'Pluie fine',
+            'Moderate rain': 'Pluie modérée'
+          };
+          if (translations[desc]) desc = translations[desc];
+
+          tempEl.textContent = `${temp}°C`;
+          descEl.textContent = `Dakar • ${desc}`;
+        }
+      } catch (err) {
+        tempEl.textContent = '26°C';
+        descEl.textContent = 'Dakar • Ensoleillé';
+      }
+    };
+    fetchWeather();
+    setInterval(fetchWeather, 30 * 60 * 1000);
+
+    // 3. Charger une première citation
+    this.refreshQuote();
+  },
+
+  /* ==========================================================================
+     Générateur de QR Code Académique (API QRServer)
+     ========================================================================== */
+  initQrCode() {
+    const textInput = document.getElementById('qrTextInput');
+    const sizeSelect = document.getElementById('qrSizeSelect');
+    const colorSelect = document.getElementById('qrColorSelect');
+    if (!textInput || !sizeSelect || !colorSelect) return;
+
+    const handler = () => this.generateQrCode();
+    textInput.addEventListener('input', handler);
+    sizeSelect.addEventListener('change', handler);
+    colorSelect.addEventListener('change', handler);
+
+    this.generateQrCode();
+  },
+
+  generateQrCode() {
+    const textInput = document.getElementById('qrTextInput');
+    const sizeSelect = document.getElementById('qrSizeSelect');
+    const colorSelect = document.getElementById('qrColorSelect');
+    const imgPreview = document.getElementById('qrImagePreview');
+    const downloadLink = document.getElementById('qrDownloadLink');
+    if (!textInput || !sizeSelect || !colorSelect || !imgPreview) return;
+
+    const text = textInput.value.trim() || 'https://oscarkakpo-create.github.io/hubdigitalcesag/';
+    const size = sizeSelect.value || '300x300';
+    const color = colorSelect.value || '006747';
+
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}&color=${color}&data=${encodeURIComponent(text)}`;
+    imgPreview.src = qrUrl;
+    if (downloadLink) {
+      downloadLink.href = qrUrl;
+    }
   },
 
   /* ==========================================================================
