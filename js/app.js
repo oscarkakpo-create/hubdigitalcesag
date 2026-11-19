@@ -22,6 +22,7 @@ const App = {
     this.renderCyberChecklist();
     this.initPasswordTools();
     this.initConverter();
+    this.initFoadClock();
     this.initBackToTop();
     this.initMobileMenu();
     this.initScrollSpy();
@@ -408,8 +409,86 @@ const App = {
   },
 
   /* ==========================================================================
-     Convertisseur de Devises XOF
+     Horloge Universelle FOAD & Séances Virtuelles
      ========================================================================== */
+  initFoadClock() {
+    const dakarEl = document.getElementById('foadDakarTime');
+    const localEl = document.getElementById('foadLocalTime');
+    const diffEl = document.getElementById('foadTimeDiff');
+    const titleEl = document.getElementById('foadStatusTitle');
+    const descEl = document.getElementById('foadStatusCountdown');
+    if (!dakarEl || !localEl) return;
+
+    const updateClock = () => {
+      const now = new Date();
+
+      // Dakar Time (GMT / UTC)
+      const dakarTimeStr = now.toLocaleTimeString('fr-FR', {
+        timeZone: 'Africa/Dakar',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      dakarEl.textContent = `${dakarTimeStr} GMT`;
+
+      // Local Time
+      const localTimeStr = now.toLocaleTimeString('fr-FR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      localEl.textContent = localTimeStr;
+
+      // Time Difference
+      const offsetMinutes = -now.getTimezoneOffset();
+      const diffHours = offsetMinutes / 60;
+      if (diffEl) {
+        if (diffHours === 0) {
+          diffEl.textContent = 'Même fuseau';
+        } else if (diffHours > 0) {
+          diffEl.textContent = `GMT+${diffHours} (+${diffHours}h)`;
+        } else {
+          diffEl.textContent = `GMT${diffHours} (${diffHours}h)`;
+        }
+      }
+
+      // Session status in Dakar time
+      if (titleEl && descEl) {
+        const dakarDate = new Date(now.toLocaleString('en-US', { timeZone: 'Africa/Dakar' }));
+        const h = dakarDate.getHours();
+        const m = dakarDate.getMinutes();
+
+        if (h < 18) {
+          const hoursLeft = 17 - h;
+          const minsLeft = 60 - m;
+          titleEl.textContent = 'Prochaine séance en direct ce soir';
+          descEl.textContent = `Début à 18h00 GMT (dans ${hoursLeft > 0 ? hoursLeft + 'h ' : ''}${minsLeft} min)`;
+        } else if (h < 20 || (h === 20 && m <= 30)) {
+          titleEl.textContent = '🟢 Séances en direct en cours !';
+          descEl.textContent = 'Classes virtuelles ouvertes sur Teams & Moodle';
+        } else {
+          titleEl.textContent = 'Séances du jour terminées';
+          descEl.textContent = 'Prochain cours demain à 18h00 GMT';
+        }
+      }
+    };
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  },
+
+  /* ==========================================================================
+     Convertisseur de Devises Dynamique (API Open Exchange Rates)
+     ========================================================================== */
+  liveRates: {
+    EUR: 1,
+    XOF: 655.957,
+    USD: 1.09,
+    CAD: 1.57,
+    GBP: 0.83,
+    MAD: 10.93
+  },
+
   initConverter() {
     const amountInput = document.getElementById('convAmount');
     const srcSelect = document.getElementById('convSource');
@@ -419,8 +498,50 @@ const App = {
       amountInput.addEventListener('input', () => this.runConversion());
       srcSelect.addEventListener('change', () => this.runConversion());
       tgtSelect.addEventListener('change', () => this.runConversion());
+      this.fetchLiveRates();
       this.runConversion();
     }
+  },
+
+  async fetchLiveRates() {
+    try {
+      const cached = localStorage.getItem('cesag_live_rates');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Date.now() - parsed.timestamp < 1000 * 60 * 60 * 12) {
+          this.liveRates = { ...this.liveRates, ...parsed.rates };
+          this.updateLiveRatesBadge('Taux en direct (BCEAO / Marchés)');
+          this.runConversion();
+          return;
+        }
+      }
+
+      const res = await fetch('https://open.er-api.com/v6/latest/EUR');
+      if (!res.ok) throw new Error('API offline');
+      const data = await res.json();
+      if (data && data.rates) {
+        this.liveRates.USD = data.rates.USD || this.liveRates.USD;
+        this.liveRates.CAD = data.rates.CAD || this.liveRates.CAD;
+        this.liveRates.GBP = data.rates.GBP || this.liveRates.GBP;
+        this.liveRates.MAD = data.rates.MAD || this.liveRates.MAD;
+        this.liveRates.XOF = 655.957;
+
+        localStorage.setItem('cesag_live_rates', JSON.stringify({
+          rates: this.liveRates,
+          timestamp: Date.now()
+        }));
+
+        this.updateLiveRatesBadge(`Taux en direct connectés (${new Date().toLocaleDateString('fr-FR')})`);
+        this.runConversion();
+      }
+    } catch (e) {
+      this.updateLiveRatesBadge('Taux de référence (BCEAO / Marchés)');
+    }
+  },
+
+  updateLiveRatesBadge(msg) {
+    const badge = document.getElementById('convLiveStatus');
+    if (badge) badge.textContent = msg;
   },
 
   runConversion() {
@@ -435,16 +556,18 @@ const App = {
       return;
     }
 
-    const ratesInXOF = {
-      EUR: 655.957,
-      USD: 605.00,
-      XOF: 1
+    const amountInEUR = src === 'EUR' ? amount : (src === 'XOF' ? amount / 655.957 : amount / (this.liveRates[src] || 1));
+    const converted = tgt === 'EUR' ? amountInEUR : (tgt === 'XOF' ? amountInEUR * 655.957 : amountInEUR * (this.liveRates[tgt] || 1));
+
+    const symbols = {
+      EUR: '€',
+      USD: '$',
+      XOF: 'FCFA',
+      CAD: 'CAD$',
+      GBP: '£',
+      MAD: 'MAD'
     };
 
-    const amountInXOF = amount * ratesInXOF[src];
-    const converted = amountInXOF / ratesInXOF[tgt];
-
-    const symbols = { EUR: '€', USD: '$', XOF: 'FCFA' };
     const formatted = converted.toLocaleString('fr-FR', {
       maximumFractionDigits: tgt === 'XOF' ? 0 : 2
     });
@@ -460,6 +583,157 @@ const App = {
     srcSelect.value = tgtSelect.value;
     tgtSelect.value = temp;
     this.runConversion();
+  },
+
+  /* ==========================================================================
+     Recherche Académique & Publications Open Access (OpenAlex API)
+     ========================================================================== */
+  searchAcademicQuick(query) {
+    const input = document.getElementById('academicSearchInput');
+    if (input) {
+      input.value = query;
+      this.searchAcademicWorks();
+    }
+  },
+
+  async searchAcademicWorks() {
+    const input = document.getElementById('academicSearchInput');
+    const resultsContainer = document.getElementById('academicSearchResults');
+    if (!input || !resultsContainer) return;
+
+    const query = input.value.trim();
+    if (!query) {
+      input.focus();
+      return;
+    }
+
+    resultsContainer.style.display = 'grid';
+    resultsContainer.innerHTML = `
+      <div style="text-align: center; padding: 2.5rem; background: var(--bg-surface-alt); border-radius: var(--radius-lg);">
+        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--cesag-green-600); margin-bottom: 0.75rem;"></i>
+        <p style="color: var(--text-primary); font-weight: 700;">Interrogation des bases scientifiques (OpenAlex / CrossRef)...</p>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Recherche d'articles, thèses et mémoires en libre accès...</p>
+      </div>
+    `;
+
+    try {
+      let works = [];
+      let sourceName = 'OpenAlex';
+
+      // 1. Essai OpenAlex
+      try {
+        const alexUrl = `https://api.openalex.org/works?search=${encodeURIComponent(query)}&filter=is_oa:true&per_page=4&mailto=contact@cesagonline.com`;
+        const alexRes = await fetch(alexUrl);
+        if (alexRes.ok) {
+          const alexData = await alexRes.json();
+          if (alexData.results && alexData.results.length) {
+            works = alexData.results.map(w => ({
+              title: w.title || 'Publication sans titre',
+              year: w.publication_year || 'N/A',
+              journal: (w.primary_location && w.primary_location.source && w.primary_location.source.display_name) ||
+                       (w.host_venue && w.host_venue.display_name) || 'Revue scientifique',
+              authors: (w.authorships || [])
+                .slice(0, 3)
+                .map(a => a.author ? a.author.display_name : '')
+                .filter(Boolean)
+                .join(', ') || 'Auteurs académiques',
+              url: (w.open_access && w.open_access.oa_url) ||
+                   (w.best_oa_location && w.best_oa_location.pdf_url) ||
+                   (w.best_oa_location && w.best_oa_location.landing_page_url) ||
+                   w.doi || '#',
+              firstAuthor: (w.authorships && w.authorships[0] && w.authorships[0].author) ? w.authorships[0].author.display_name : 'Auteur'
+            }));
+          }
+        }
+      } catch (_) {}
+
+      // 2. Relais CrossRef si nécessaire
+      if (!works.length) {
+        sourceName = 'CrossRef (Registre International DOI)';
+        const crossUrl = `https://api.crossref.org/works?query=${encodeURIComponent(query)}&rows=4&mailto=contact@cesagonline.com`;
+        const crossRes = await fetch(crossUrl);
+        if (crossRes.ok) {
+          const crossData = await crossRes.json();
+          const items = (crossData.message && crossData.message.items) || [];
+          works = items.map(it => {
+            const rawTitle = it.title ? (Array.isArray(it.title) ? it.title[0] : it.title) : 'Publication sans titre';
+            const year = (it.issued && it.issued['date-parts'] && it.issued['date-parts'][0] && it.issued['date-parts'][0][0]) || 'N/A';
+            const journal = (it['container-title'] && it['container-title'][0]) || it.publisher || 'Éditeur académique';
+            const authorList = (it.author || [])
+              .slice(0, 3)
+              .map(a => [a.given, a.family].filter(Boolean).join(' '))
+              .filter(Boolean)
+              .join(', ') || 'Auteur académique';
+            const firstA = (it.author && it.author[0] && (it.author[0].family || it.author[0].name)) || 'Auteur';
+            const url = it.URL || (it.DOI ? `https://doi.org/${it.DOI}` : '#');
+            return {
+              title: rawTitle,
+              year,
+              journal,
+              authors: authorList,
+              url,
+              firstAuthor: firstA
+            };
+          });
+        }
+      }
+
+      if (!works.length) {
+        resultsContainer.innerHTML = `
+          <div style="text-align: center; padding: 2.5rem; background: var(--bg-surface-alt); border-radius: var(--radius-lg); border: 1px dashed var(--border-default);">
+            <i class="fas fa-info-circle" style="font-size: 2rem; color: var(--cesag-gold-500); margin-bottom: 0.75rem;"></i>
+            <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.35rem;">Aucune publication trouvée pour « ${query} »</h4>
+            <p style="color: var(--text-muted); font-size: 0.875rem;">Essayez avec des termes plus généraux (ex. « microfinance », « audit bancaire », « logistique »).</p>
+          </div>
+        `;
+        return;
+      }
+
+      resultsContainer.innerHTML = works.map((w) => {
+        const apaCitation = `${w.firstAuthor} et al. (${w.year}). ${w.title}. ${w.journal}. ${w.url !== '#' ? w.url : ''}`.trim();
+
+        return `
+          <article class="academic-card">
+            <div class="academic-card-top">
+              <span class="academic-card-year"><i class="fas fa-calendar-alt"></i> ${w.year}</span>
+              <span class="academic-card-journal">${w.journal}</span>
+            </div>
+            <h4 class="academic-card-title">${w.title}</h4>
+            <p class="academic-card-authors"><i class="fas fa-user-edit" style="color: var(--cesag-gold-600); margin-right: 0.35rem;"></i> ${w.authors}</p>
+            <div class="academic-card-actions">
+              <a href="${w.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                <i class="fas fa-file-pdf"></i> Consulter la publication
+              </a>
+              <button type="button" class="btn btn-outline btn-sm" onclick="App.copyCitation('${encodeURIComponent(apaCitation)}')">
+                <i class="fas fa-quote-right"></i> Copier citation APA
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+    } catch (e) {
+      resultsContainer.innerHTML = `
+        <div style="text-align: center; padding: 2rem; background: var(--bg-surface-alt); border-radius: var(--radius-lg); border: 1px dashed var(--border-default);">
+          <i class="fas fa-wifi" style="font-size: 1.8rem; color: var(--cesag-gold-500); margin-bottom: 0.75rem;"></i>
+          <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">Connexion momentanément indisponible</h4>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Vérifiez votre connexion Internet ou réessayez dans un instant.</p>
+        </div>
+      `;
+    }
+  },
+
+  copyCitation(encodedText) {
+    const text = decodeURIComponent(encodedText);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Citation APA copiée dans le presse-papier !');
+      }).catch(() => {
+        showToast('Citation APA : ' + text.substring(0, 50) + '...');
+      });
+    } else {
+      showToast('Citation APA : ' + text.substring(0, 50) + '...');
+    }
   },
 
   /* ==========================================================================

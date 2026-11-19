@@ -138,6 +138,39 @@
             <button class="search-chip" onclick="SearchEngine.openSearchModal('Bibliotheque')">Bibliothèque</button>
           </div>
         </div>
+
+        <!-- Horloge Universelle des Cours FOAD & Campus CESAG -->
+        <div class="foad-clock-card" id="foadClockCard" aria-label="Horloge en direct des cours FOAD">
+          <div class="foad-clock-col">
+            <span class="foad-clock-pulse" aria-hidden="true"></span>
+            <div>
+              <span class="foad-clock-caption"><i class="fas fa-map-marker-alt"></i> Dakar (CESAG • Réf. FOAD)</span>
+              <strong class="foad-clock-time" id="foadDakarTime">--:--:-- GMT</strong>
+            </div>
+          </div>
+
+          <div class="foad-clock-divider" aria-hidden="true"></div>
+
+          <div class="foad-clock-col">
+            <div>
+              <span class="foad-clock-caption"><i class="fas fa-user-clock"></i> Votre heure locale</span>
+              <div>
+                <strong class="foad-clock-time" id="foadLocalTime">--:--:--</strong>
+                <span class="foad-clock-diff" id="foadTimeDiff">Calcul...</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="foad-clock-divider" aria-hidden="true"></div>
+
+          <div class="foad-session-badge">
+            <i class="fas fa-video" aria-hidden="true"></i>
+            <div>
+              <span class="foad-status-title" id="foadStatusTitle">Séances de cours du soir</span>
+              <span class="foad-status-desc" id="foadStatusCountdown">Début des cours à 18h00 GMT</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -507,6 +540,48 @@
           </div>
         </div>
 
+        <!-- Section Recherche Académique & Thèses en Libre Accès (OpenAlex API) -->
+        <div class="academic-search-box" id="academicSearchSection">
+          <div class="academic-search-header">
+            <div>
+              <div class="academic-search-pill">
+                <i class="fas fa-graduation-cap"></i> Base Mondiale Open Access • API OpenAlex
+              </div>
+              <h3 class="academic-search-title">
+                <i class="fas fa-book-reader" style="color: var(--cesag-green-600); margin-right: 0.5rem;"></i>
+                Recherche de Thèses & Publications Scientifiques
+              </h3>
+              <p class="academic-search-desc">
+                Accédez gratuitement à des millions d'articles scientifiques, thèses et études en gestion, finance, santé et management avec lien direct vers le PDF intégral.
+              </p>
+            </div>
+            <div class="academic-search-badge">
+              <span class="badge tag-essential">100% Libre Accès</span>
+            </div>
+          </div>
+
+          <form id="academicSearchForm" class="academic-search-input-group" onsubmit="event.preventDefault(); App.searchAcademicWorks();">
+            <div class="academic-input-wrapper">
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <input type="text" id="academicSearchInput" class="academic-input" placeholder="Rechercher un sujet (ex. microfinance zone UEMOA, audit bancaire, supply chain...)" autocomplete="off">
+            </div>
+            <button type="submit" class="btn btn-primary" id="academicSearchBtn">
+              <i class="fas fa-search"></i> Rechercher
+            </button>
+          </form>
+
+          <div class="academic-tags">
+            <span class="academic-tag-label">Sujets fréquents :</span>
+            <button type="button" class="search-chip" onclick="App.searchAcademicQuick('microfinance zone UEMOA')">Microfinance UEMOA</button>
+            <button type="button" class="search-chip" onclick="App.searchAcademicQuick('audit interne gestion des risques')">Audit & Risques</button>
+            <button type="button" class="search-chip" onclick="App.searchAcademicQuick('gouvernance entreprise afrique')">Gouvernance</button>
+            <button type="button" class="search-chip" onclick="App.searchAcademicQuick('supply chain management dakar')">Supply Chain</button>
+            <button type="button" class="search-chip" onclick="App.searchAcademicQuick('intelligence artificielle gestion')">IA & Management</button>
+          </div>
+
+          <div id="academicSearchResults" class="academic-results-grid" style="display: none;"></div>
+        </div>
+
         <!-- Section Modèles d'Emails Professionnels Prêts à l'Emploi -->
         <div class="section-header" style="margin-bottom: 2rem;">
           <h3 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 800; color: var(--text-primary);">
@@ -776,8 +851,11 @@
             <label class="form-label" for="convSource">Devise Source :</label>
             <select id="convSource" class="form-control">
               <option value="EUR">Euro (€)</option>
-              <option value="USD">Dollar US ($)</option>
               <option value="XOF">FCFA (XOF)</option>
+              <option value="USD">Dollar US ($)</option>
+              <option value="CAD">Dollar Canadien (CAD$)</option>
+              <option value="GBP">Livre Sterling (£)</option>
+              <option value="MAD">Dirham Marocain (MAD)</option>
             </select>
           </div>
           <button onclick="App.swapConverter()" class="btn btn-outline" style="height: 42px; padding: 0 0.85rem;" title="Inverser les devises">
@@ -789,12 +867,19 @@
               <option value="XOF" selected>FCFA (XOF)</option>
               <option value="EUR">Euro (€)</option>
               <option value="USD">Dollar US ($)</option>
+              <option value="CAD">Dollar Canadien (CAD$)</option>
+              <option value="GBP">Livre Sterling (£)</option>
+              <option value="MAD">Dirham Marocain (MAD)</option>
             </select>
           </div>
         </div>
         <div id="convResult" class="converter-result-box">Calcul en cours...</div>
-        <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 0.75rem;">
-          Taux fixe garanti BCEAO : 1 EUR = 655,957 FCFA. Taux USD indicatif.
+        <div id="convLiveBadge" style="font-size: 0.76rem; display: flex; align-items: center; justify-content: center; gap: 0.45rem; color: var(--cesag-green-600); margin-top: 0.65rem; font-weight: 600;">
+          <i class="fas fa-satellite-dish" aria-hidden="true"></i>
+          <span id="convLiveStatus">Taux connectés en direct (BCEAO / Marchés)</span>
+        </div>
+        <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 0.4rem;">
+          Parité fixe garantie BCEAO : 1 EUR = 655,957 FCFA. Taux des autres devises actualisés en continu.
         </p>
       </div>
       <div class="modal-footer">
